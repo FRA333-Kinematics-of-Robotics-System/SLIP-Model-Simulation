@@ -42,6 +42,14 @@ The SLIP model is a simplified model used to describe the kinematics of a runnin
    ```bash
    pip install pybullet numpy
    ```
+3. Moving path to project directory:
+   ```bash
+   cd SLIP-Model-Simulation
+   ```
+4. Open Visual Studio Code for run a python:
+   ```bash
+   code .
+   ```
 
 ## Usage
 
