@@ -1,10 +1,8 @@
-# import Library
 import pybullet as p
 import pybullet_data
 import numpy as np
 import time
 from Utils import *
-import os
 
 p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
@@ -21,54 +19,47 @@ spring_x, spring_y, spring_z = InitialSpringPosion()
 
 spring_id = p.loadURDF(urdf_path, basePosition=[spring_x, spring_y, spring_z])
 
-#Change color of base
 p.changeVisualShape(
     objectUniqueId=spring_id,
-    linkIndex=-1,  # หรือกำหนด link index
-    rgbaColor=[0, 0, 0, 1]  # กำหนดสีแดง
+    linkIndex=-1,
+    rgbaColor=[0, 0, 0, 1]
 )
 
-#Change color of mass
 p.changeVisualShape(
     objectUniqueId=spring_id,
-    linkIndex=0,  # หรือกำหนด link index
+    linkIndex=0,
     rgbaColor=[1, 0, 0, 1] 
 )
 
-#Change color of spring
 p.changeVisualShape(
     objectUniqueId=spring_id,
-    linkIndex=1,  # หรือกำหนด link index
+    linkIndex=1,
     rgbaColor=[1, 0, 0, 1] 
 )
 
-# Debug sliders
 K_spring_id = p.addUserDebugParameter("K Constant", 0, 1000, 100)
 m_mass_id = p.addUserDebugParameter("Mass", 0, 10, 1)
 
 l_rest = r0
-k_spring = p.readUserDebugParameter(K_spring_id)  # N/m
+k_spring = p.readUserDebugParameter(K_spring_id)
 
 x_i, y_i, z_i = 0, 0, 0
 
-# Constants for the simulation
-g = -9.81          # Gravitational acceleration (m/s^2)
-time_step = 1 / 240.0  # Simulation time step (seconds)
+g = -9.81
+time_step = 1 / 240.0
 dx, dy, dz = 1, 0, 0
 simulation_time = 0
 state = 1
-previous_r = r  # or use r0 if r0 is the initial spring length
+previous_r = r
 T_fight = 2 * dz / -g
 T_stance = 2*np.pi* np.sqrt(m_mass_id/k_spring)
 
-# เริ่มสถานะใน Initial State
 print("System initialized. Waiting for release...")
 input("Press Enter to release the system.")
 t_sim = 0
 
 while True:
 
-    # initial state
     if state == 1:
         phase = "stance"
         r, r_dot, theta, theta_dot, phi, phi_dot, mass_x, mass_y, mass_z = StancePhase(
@@ -83,7 +74,6 @@ while True:
             
             phase = "fight"
 
-    # Fight phase
     elif (state == 2) & (phase == "fight"):
         mass_x, mass_y, mass_z, spring_x, spring_y, spring_z, theta = FightPhase(
             x_i, y_i, z_i, r, theta, phi, theta_i, t_sim, g, dx, dy, dz, T_fight)
@@ -99,7 +89,6 @@ while True:
 
             phase = "stance"
 
-    # Stance phase
     elif (state == 3) & (phase == "stance"):
         r, r_dot, theta, theta_dot, phi, phi_dot, mass_x, mass_y, mass_z = StancePhase(
             m_mass_id, k_spring, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot
@@ -113,7 +102,6 @@ while True:
             
             phase = "fight"
 
-    # Update simulation
     UpdateSimulation(spring_id, r, spring_x, spring_y, spring_z, theta, phi, theta_dot)
 
     print(f"Phase: {phase}")
@@ -127,6 +115,5 @@ while True:
     
     simulation_time += time_step
 
-    # Step simulation
     p.stepSimulation()
     time.sleep(time_step)
