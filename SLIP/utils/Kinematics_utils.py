@@ -52,7 +52,7 @@ def AngularToLinearVelocity(theta, phi, r_dot, r, theta_dot, phi_dot):
     )
     return dx, dy, dz
 
-def FightPhase(x_i, y_i, z_i, r, theta, phi, theta_i, t, g, dx, dy, dz, T):
+def FlightPhase(x_i, y_i, z_i, r, theta, phi, theta_i, t, g, dx, dy, dz, T):
 
     mass_x = x_i + dx * t
     mass_y = y_i + dy * t

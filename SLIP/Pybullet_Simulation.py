@@ -97,7 +97,7 @@ while True:
                 phase = "fight"
 
         elif (state == 2) & (phase == "fight"):
-            mass_x, mass_y, mass_z, spring_x, spring_y, spring_z, theta = FightPhase(
+            mass_x, mass_y, mass_z, spring_x, spring_y, spring_z, theta = FlightPhase(
                 x_i, y_i, z_i, r, theta, phi, theta_i, t_sim, g, dx, dy, dz, T_fight)
             
             t_sim += time_step

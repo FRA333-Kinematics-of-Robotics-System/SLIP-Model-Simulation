@@ -269,6 +269,48 @@ The `StanceToFlight` function manages the transition from stance to flight phase
 **Returns**:
 - Absolute spring point coordinates (`spring_x`, `spring_y`, `spring_z`)
 
-## Contributions
+### `FlightPhase()`
 
-Feel free to fork the repository, make changes, and submit pull requests.
+```py
+def FlightPhase(x_i, y_i, z_i, r, theta, phi, theta_i, t, g, dx, dy, dz, T):
+```
+
+The `FlightPhase` function simulates the kinematics of a Spring-Loaded Inverted Pendulum (SLIP) from equation giving before, during its flight phase, calculating the motion and position of a mass in projectile motion.
+
+**Needed Parameters**:
+- `x_i`: X-coordinate position before projectile.
+
+- `y_i`: Y-coordinate position before projectile.
+
+- `z_i`: Z-coordinate position before projectile.
+
+- `r`: Length of the spring compressed (m)
+
+- `theta`: Orientation of the robot in z axis (in radians)
+
+- `phi`: Orientation of the robot between xy axis (in radians)
+
+**Returns**:
+
+- Absolute spring point coordinates (`spring_x`, `spring_y`, `spring_z`)
+
+- Absolute mass point coordinates (`mass_x`, `mass_y`, `mass_z`)
+
+- New `theta` for flight phase.
+
+## Contributors
+
+<div style="display: flex; align-items: center; margin-bottom: 10px;">
+  <img src=".image/ImJAiiiii.png" width="50" height="50" style="border-radius: 50%; margin-right: 10px;">
+  <span><b>Apichaya Sriwong</b> - <a href="https://github.com/ImJAiiiii">GitHub Profile</a> - Developer Researcher</span>
+</div>
+
+<div style="display: flex; align-items: center; margin-bottom: 10px;">
+  <img src=".image/Toonzaza.png" width="50" height="50" style="border-radius: 50%; margin-right: 10px;">
+  <span><b>Poppeth Petchamli</b> - <a href="https://github.com/Toonzaza">GitHub Profile</a> - Developer</span>
+</div>
+
+<div style="display: flex; align-items: center; margin-bottom: 10px;">
+  <img src=".image/TeeTyJunGz.png" width="50" height="50" style="border-radius: 50%; margin-right: 10px;">
+  <span><b>Vasayos Tosiri</b> - <a href="https://github.com/TeeTyJunGz">GitHub Profile</a> - Developer</span>
+</div>
