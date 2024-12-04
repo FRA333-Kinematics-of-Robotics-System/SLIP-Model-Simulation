@@ -2,16 +2,16 @@ import pybullet as p
 import pybullet_data
 import numpy as np
 import time
-from Utils import *
+from utils.Kinematics_utils import *
 
 p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
 p.setGravity(0, 0, -9.81)
 p.loadURDF("plane.urdf")
 
-urdf_path = "urdf\SLIP_Model.urdf"
+urdf_path = "urdf/SLIP_Model.urdf"
 
-r, theta, phi, r_dot, theta_dot, phi_dot, r0 = InitialState()
+r, theta, phi, r_dot, theta_dot, phi_dot, r0, g = InitialState()
 
 mass_x, mass_y, mass_z = InitialMassPosition()
 
@@ -44,8 +44,6 @@ l_rest = r0
 k_spring = p.readUserDebugParameter(K_spring_id)
 
 x_i, y_i, z_i = 0, 0, 0
-
-g = -9.81
 time_step = 1 / 240.0
 dx, dy, dz = 1, 0, 0
 simulation_time = 0
@@ -54,6 +52,32 @@ previous_r = r
 T_fight = 2 * dz / -g
 T_stance = 2*np.pi* np.sqrt(m_mass_id/k_spring)
 
+def UpdateSimulation(spring_id, r, spring_x, spring_y, spring_z, theta, phi, theta_dot):
+    spring_index = 1
+
+    new_position = r
+
+    p.setJointMotorControl2(
+        spring_id,
+        spring_index,
+        controlMode=p.POSITION_CONTROL,
+        targetPosition=new_position,
+    )
+
+    if phase == 'fight':
+        theta_dot = -theta_dot
+    elif phase == 'stance':
+        theta_dot = theta_dot
+
+    time_step = 0.01
+    theta = theta + theta_dot * time_step
+
+    p.resetBasePositionAndOrientation(
+        spring_id,
+        [spring_x , spring_y , spring_z],
+        p.getQuaternionFromEuler([0, theta, phi])
+    )
+    
 print("System initialized. Waiting for release...")
 input("Press Enter to release the system.")
 t_sim = 0

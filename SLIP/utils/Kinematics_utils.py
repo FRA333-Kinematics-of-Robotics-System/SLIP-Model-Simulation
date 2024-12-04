@@ -1,24 +1,20 @@
 # import Library
-import pybullet as p
-import pybullet_data
 import numpy as np
-import time
-import os
 
-def InitialState():
-    r0 = 1.0         # Natural spring length
-    r = 0.3        # Compressed spring length (initial state)
-    theta = np.pi/6  # Initial tilt angle (30 degrees)
-    phi = 0.0        # Initial azimuthal angle
-    r_dot = 0      # Radial velocity
-    theta_dot = 0  # Polar angle velocity
-    phi_dot = 0.0    # Azimuthal angle velocity
+def InitialState(_r0=1.0, _r=0.3, _theta=np.pi/6, _phi=0.0, _r_dot=0.0, _theta_dot=0.0, _phi_dot=0.0, _g=-9.81):
+    r0 = _r0
+    r = _r
+    theta = _theta
+    phi = _phi
+    r_dot = _r_dot
+    theta_dot = _theta_dot
+    phi_dot = _phi_dot
+    g = _g
 
-    return r, theta, phi, r_dot, theta_dot, phi_dot, r0
+    return r, theta, phi, r_dot, theta_dot, phi_dot, r0, g
 
-r, theta, phi, r_dot, theta_dot, phi_dot, r0 = InitialState()
+r, theta, phi, r_dot, theta_dot, phi_dot, r0, g = InitialState()
 phase = "Initial"
-g = -9.81          # Gravitational acceleration (m/s^2)
 # Start Position of mass
 def InitialMassPosition():
     # คำนวณตำแหน่งของ Base (Mass) ที่ปลายบนของสปริง
@@ -37,40 +33,6 @@ def InitialSpringPosion():
     return spring_x, spring_y, spring_z
 
 spring_x, spring_y, spring_z = InitialSpringPosion()
-
-# Function to update the spring length and position without flickering
-def UpdateSimulation(spring_id, r, spring_x, spring_y, spring_z, theta, phi, theta_dot):
-    # Assuming the prismatic joint is the first joint (adjust index accordingly)
-    spring_index = 1  # Modify this if the prismatic joint is not the first joint
-
-    # Calculate the new desired position based on the spring length (r)
-    # You need to adjust the spring length here based on your simulation needs
-    new_position = r
-
-    # Set joint motor control to change the prismatic joint's position (spring length)
-    p.setJointMotorControl2(
-        spring_id,
-        spring_index,
-        controlMode=p.POSITION_CONTROL,
-        targetPosition=new_position,
-    )
-
-    # Assuming you change the direction of theta_dot based on the phase
-    if phase == 'fight':
-        theta_dot = -theta_dot  # example value for fight
-    elif phase == 'stance':
-        theta_dot = theta_dot   # example value for stance
-
-    # Smoothly update theta (angular position) based on theta_dot
-    time_step = 0.01  # or the appropriate time step of your simulation
-    theta = theta + theta_dot * time_step
-
-    # Update the position and orientation of the spring and mass
-    p.resetBasePositionAndOrientation(
-        spring_id,
-        [spring_x , spring_y , spring_z],  # Update the base position of the spring
-        p.getQuaternionFromEuler([0, theta, phi])  # Update the spring's orientation
-    )
 
 def AngularToLinearVelocity(theta, phi, r_dot, r, theta_dot, phi_dot):
     # Calculate linear velocities
