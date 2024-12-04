@@ -83,8 +83,8 @@ r, theta, phi, r_dot, theta_dot, phi_dot, r0, g = InitialState(_r0=1.5, _r=0.7)
 def InitialState(_r0=1.0, _r=0.3, _theta=np.pi/6, _phi=0.0, _r_dot=0.0, _theta_dot=0.0, _phi_dot=0.0, _g=-9.81):
 ```
 
-- `_theta` : Starting orientation of the robot in x axis (radian)
-- `_phi` : Starting orientation of the robot in y axis (radian)
+- `_theta` : Starting orientation of the robot in z axis (radian)
+- `_phi` : Starting orientation of the robot between xy axis (radian)
 
 **Example**
 
@@ -92,7 +92,7 @@ def InitialState(_r0=1.0, _r=0.3, _theta=np.pi/6, _phi=0.0, _r_dot=0.0, _theta_d
 r, theta, phi, r_dot, theta_dot, phi_dot, r0, g = InitialState(_theta=np.pi/7, _phi=np.pi/6)
 ```
 
-<!-- ### URDF File Modification
+### URDF File Modification
 
 The project includes a pre-configured URDF file for the robot. You can modify the URDF file to change the robot's design or parameters. The URDF file can be found in the `urdf/` directory.
 
@@ -100,18 +100,67 @@ The project includes a pre-configured URDF file for the robot. You can modify th
 
 The following kinematic equations are utilized in the project:
 
-1. **Spring Force**: 
-   """
-   F_spring = k * (x - l_0)
-   """
-   - Where `k` is the spring constant, `x` is the displacement, and `l_0` is the natural length of the spring.
+### **`Stance Phase` | Equation of Motion**: 
 
-2. **Leg Kinematics**:
-   """
-   x_leg = l * cos(θ)
-   y_leg = l * sin(θ)
-   """
-   - Where `l` is the length of the leg, and `θ` is the angle of the leg relative to the ground.
+**Equation for $\ddot{r}$:**
+$$\ddot{r}(t) = \frac{mr(t)(\dot{\theta}(t)^2 + \sin^2(\theta(t))\dot{\phi}(t)^2) + k(r_0 - r(t)) - mg\cos(\theta(t))}{m}$$
+
+To find $r(t)$, we can integrate this equation twice:
+$$r(t) = \int\int \ddot{r}(t) , dt$$
+
+**Euler-Lagrange Equation for $\theta$:**
+$$\ddot{\theta}(t) = \frac{g\sin(\theta(t)) - 2\dot{r}(t)\dot{\theta}(t) + \frac{1}{2}\sin(2\theta(t))\dot{r}(t)\dot{\phi}(t)^2}{r(t)}$$
+
+To find $\theta(t)$, we can integrate this equation once:
+$$\theta(t) = \int\int \ddot{\theta}(t) , dt$$
+
+**Euler-Lagrange Equation for $\phi$:**
+$$\ddot{\phi}(t) = \frac{-\dot{r}(t)\sin(2\theta(t))\dot{\phi}(t)\dot{\theta}(t) - 2\dot{r}(t)\sin(\theta(t))\dot{\phi}(t)}{r(t)\sin(\theta)}$$
+
+To find $\phi(t)$, we can integrate this equation once:
+$$\phi(t) = \int\int \ddot{\phi}(t) , dt$$
+
+**where**:
+- $r(t)$ is the length of the spring compressed.
+- $\theta(t)$ is the orientation of robot in z axis .
+- $\phi(t)$ is the orientation of robot between xy axis.
+- $m$ is the mass of the robot.
+- $g$ is the acceleration due to gravity.
+- $k$ is the spring constant.
+- $r_0$ is the length of the spring.
+
+### **`Stance Phase` | Position of Mass**: 
+
+$$x(t) = x_c + \sin(\theta(t))\cos(\phi(t))$$
+$$y(t) = y_c + \sin(\theta(t))\sin(\phi(t))$$
+$$z(t) = z_c + r(t) + \cos(\theta(t))$$
+
+**where**:
+
+- $x_c, y_c, z_c$ are the mass position.
+
+### **`Flight Phase` | Position of Mass**:
+
+$$x(t) = x_i + \dot{x}_it$$
+$$y(t) = y_i + \dot{y}_it$$
+$$z(t) = z_i + \dot{z}_it - \frac{1}{2}gt^2$$
+
+**where**:
+- $x_i, y_i, z_i$ are the initial position before projectile.
+- $\dot{x}_i, \dot{y}_i, \dot{z}_i$ are the initial velocity components before projectile.
+- $g$ is the acceleration due to gravity.
+
+### **`Flight Phase` | Position of Spring Base**:
+
+$$x_c = x(t) - r(t)\sin(\theta(t))\cos(\phi(t))$$
+$$y_c = y(t) - r(t)\sin(\theta(t))\sin(\phi(t))$$
+$$z_c = z(t) - r(t)\cos(\theta(t))$$
+
+**Where**:
+
+- $x(t)$: The x-coordinate of the center of mass position.
+- $y(t)$: The y-coordinate of the center of mass position.
+- $z(t)$: The z-coordinate of the center of mass position.
 
 ## Functions
 
@@ -126,7 +175,3 @@ Calculates the kinematics of the robot based on the current state and parameters
 ## Contributions
 
 Feel free to fork the repository, make changes, and submit pull requests.
-
-## License
-
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details. -->
