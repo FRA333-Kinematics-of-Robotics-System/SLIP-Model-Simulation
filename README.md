@@ -103,21 +103,27 @@ The following kinematic equations are utilized in the project:
 ### **`Stance Phase` | Equation of Motion**: 
 
 **Equation for $\ddot{r}$:**
+
 $$\ddot{r}(t) = \frac{mr(t)(\dot{\theta}(t)^2 + \sin^2(\theta(t))\dot{\phi}(t)^2) + k(r_0 - r(t)) - mg\cos(\theta(t))}{m}$$
 
 To find $r(t)$, we can integrate this equation twice:
+
 $$r(t) = \int\int \ddot{r}(t) , dt$$
 
 **Euler-Lagrange Equation for $\theta$:**
+
 $$\ddot{\theta}(t) = \frac{g\sin(\theta(t)) - 2\dot{r}(t)\dot{\theta}(t) + \frac{1}{2}\sin(2\theta(t))\dot{r}(t)\dot{\phi}(t)^2}{r(t)}$$
 
 To find $\theta(t)$, we can integrate this equation once:
+
 $$\theta(t) = \int\int \ddot{\theta}(t) , dt$$
 
 **Euler-Lagrange Equation for $\phi$:**
+
 $$\ddot{\phi}(t) = \frac{-\dot{r}(t)\sin(2\theta(t))\dot{\phi}(t)\dot{\theta}(t) - 2\dot{r}(t)\sin(\theta(t))\dot{\phi}(t)}{r(t)\sin(\theta)}$$
 
 To find $\phi(t)$, we can integrate this equation once:
+
 $$\phi(t) = \int\int \ddot{\phi}(t) , dt$$
 
 **where**:
