@@ -212,11 +212,62 @@ The `InitialState` function initializes and returns the initial state parameters
 
 - `_phi` (default: π/6): Starting orientation of the robot between xy axis (in radians)
 
-- `_g` (default: -9.81): Gravitational acceleration
+- `_g` (default: -9.81): Gravitational acceleration ($m/s^2$)
 
 ### `StancePhase()`
 
-Calculates the kinematics of the robot based on the current state and parameters.
+```py
+def StancePhase(m, k, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot ,spring_x, spring_y, spring_z)
+```
+
+The `StancePhase` function simulates the kinematics of a Spring-Loaded Inverted Pendulum (SLIP) from equation giving before, during its stance phase, calculating the motion and position of a mass.
+
+**Needed Parameters**:
+
+- `m`: Mass of the robot (kg)
+
+- `k`: Spring constant (N/m)
+
+- `r0`: Length of the spring (m)
+
+- `g`: Gravitational acceleration ($m/s^2$)
+
+- `time_step`: Simulation time increment (s)
+
+- `r`: Length of the spring compressed (m)
+
+- `theta`: Orientation of the robot in z axis (in radians)
+
+- `phi`: Orientation of the robot between xy axis (in radians)
+
+- `spring_x`, `spring_y`, `spring_z`: Position of spring attachment coordinates
+
+**Return**:
+- Absolute mass point coordinates (`mass_x`, `mass_y`, `mass_z`)
+
+### `StanceToFlight()`
+
+```py
+def StanceToFlight(mass_x, mass_y, mass_z, theta, phi, r_dot, r, theta_dot, phi_dot):
+```
+
+The `StanceToFlight` function manages the transition from stance to flight phase in a SLIP (Spring-Loaded Inverted Pendulum) robot model, calculating initial conditions for the flight phase.
+
+**Needed Parameters**:
+- `mass_x`: X-coordinate of the mass (m)
+
+- `mass_y`: Y-coordinate of the mass (m)
+
+- `mass_z`: Z-coordinate of the mass (m)
+
+- `theta`: Orientation of the robot in z axis (in radians)
+
+- `phi`: Orientation of the robot between xy axis (in radians)
+
+- `r`: Length of the spring compressed (m)
+
+**Returns**:
+- Absolute spring point coordinates (`spring_x`, `spring_y`, `spring_z`)
 
 ## Contributions
 
