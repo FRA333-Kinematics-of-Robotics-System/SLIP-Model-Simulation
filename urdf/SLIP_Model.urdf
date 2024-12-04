@@ -3,22 +3,22 @@
      Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot
-  name="Assem3">
+  name="Assem4">
   <link
     name="base_link">
     <inertial>
       <origin
-        xyz="-9.4976E-17 -1.9689E-16 0.875"
+        xyz="-1.1015E-16 -2.0643E-16 0.5"
         rpy="0 0 0" />
       <mass
         value="0.5" />
       <inertia
-        ixx="0.0014594"
-        ixy="1.0588E-19"
-        ixz="1.2211E-19"
-        iyy="0.0014594"
-        iyz="1.8001E-20"
-        izz="0.00053812" />
+        ixx="0.58215"
+        ixy="5.0822E-19"
+        ixz="9.968E-17"
+        iyy="0.58215"
+        iyz="-1.3001E-16"
+        izz="0.007665" />
     </inertial>
     <visual>
       <origin
@@ -101,17 +101,17 @@
     name="Spring_Link">
     <inertial>
       <origin
-        xyz="3.0358E-18 -1.1276E-17 0.5"
+        xyz="8.3267E-17 -8.5869E-17 0.875"
         rpy="0 0 0" />
       <mass
         value="0.5" />
       <inertia
-        ixx="0.58215"
-        ixy="5.0822E-19"
-        ixz="8.8141E-19"
-        iyy="0.58215"
-        iyz="-1.1294E-18"
-        izz="0.007665" />
+        ixx="0.0014594"
+        ixy="1.0588E-19"
+        ixz="-3.634E-20"
+        iyy="0.0014594"
+        iyz="2.247E-19"
+        izz="0.00053812" />
     </inertial>
     <visual>
       <origin
