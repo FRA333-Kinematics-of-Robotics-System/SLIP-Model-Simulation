@@ -178,7 +178,7 @@ $$z_c = z(t) - r(t)\cos(\theta(t))$$
 
 ## Functions
 
-### `simulate_slip()`
+### `StancePhase(m, k, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot ,spring_x, spring_y, spring_z)`
 
 Simulates the SLIP model dynamics in 3D using the given parameters.
 
