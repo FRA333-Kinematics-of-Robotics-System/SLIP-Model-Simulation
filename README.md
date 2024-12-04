@@ -51,13 +51,13 @@ The SLIP model is a simplified model used to describe the kinematics of a runnin
 You can modify the following parameters to customize the simulation:
 
 #### `Spring Stiffness`:
-![K_Constant](.image\K_Constant.png)
+![K_Constant](.image/K_Constant.png)
 - Stiffness of the spring (N/m)
 - Adjust via Pybullet param on top right of simulation.
 - Or Adjust in `Pybullet_Simulation.py` file at `line 44`.
 
 #### `Mass`:
-![Mass](.image\Mass.png)
+![Mass](.image/Mass.png)
 - Mass of the robot (kg)
 - Adjust via Pybullet param on top right of simulation.
 - Or Adjust in `Pybullet_Simulation.py` file at `line 41`.
