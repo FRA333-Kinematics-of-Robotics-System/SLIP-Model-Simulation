@@ -300,17 +300,17 @@ The `FlightPhase` function simulates the kinematics of a Spring-Loaded Inverted 
 
 ## Contributors
 
-<div style="display: flex; align-items: center; margin-bottom: 10px;">
-  <img src=".image/ImJAiiiii.png" width="50" height="50" style="border-radius: 50%; margin-right: 10px;">
-  <span><b>Apichaya Sriwong</b> - <a href="https://github.com/ImJAiiiii">GitHub Profile</a> - Developer Researcher</span>
-</div>
+<p>
+  <img src=".image/ImJAiiiii.png" width="50" height="50" style="vertical-align: middle; border-radius: 50%; margin-right: 10px;">
+  <b>Apichaya Sriwong</b> - <a href="https://github.com/ImJAiiiii">GitHub Profile</a> - Developer Researcher
+</p>
 
-<div style="display: flex; align-items: center; margin-bottom: 10px;">
-  <img src=".image/Toonzaza.png" width="50" height="50" style="border-radius: 50%; margin-right: 10px;">
-  <span><b>Poppeth Petchamli</b> - <a href="https://github.com/Toonzaza">GitHub Profile</a> - Developer</span>
-</div>
+<p>
+  <img src=".image/Toonzaza.png" width="50" height="50" style="vertical-align: middle; border-radius: 50%; margin-right: 10px;">
+  <b>Poppeth Petchamli</b> - <a href="https://github.com/Toonzaza">GitHub Profile</a> - Developer
+</p>
 
-<div style="display: flex; align-items: center; margin-bottom: 10px;">
-  <img src=".image/TeeTyJunGz.png" width="50" height="50" style="border-radius: 50%; margin-right: 10px;">
-  <span><b>Vasayos Tosiri</b> - <a href="https://github.com/TeeTyJunGz">GitHub Profile</a> - Developer</span>
-</div>
+<p>
+  <img src=".image/TeeTyJunGz.png" width="50" height="50" style="vertical-align: middle; border-radius: 50%; margin-right: 10px;">
+  <b>Vasayos Tosiri</b> - <a href="https://github.com/TeeTyJunGz">GitHub Profile</a> - Developer
+</p>
