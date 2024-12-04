@@ -3,12 +3,12 @@
      Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot
-  name="Assem1">
+  name="SLIP_Robot">
   <link
     name="base_link">
     <inertial>
       <origin
-        xyz="6.9389E-18 0 0.5"
+        xyz="6.9389E-18 0 0"
         rpy="0 0 0" />
       <mass
         value="0.5" />
@@ -98,7 +98,7 @@
       xyz="0 0 -1" />
     <limit
       lower="0"
-      upper="0"
+      upper="1"
       effort="0"
       velocity="0" />
   </joint>
