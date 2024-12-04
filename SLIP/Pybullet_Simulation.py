@@ -57,7 +57,7 @@ l_rest = r0
 k_spring = p.readUserDebugParameter(K_spring_id)
 
 x_i, y_i, z_i = mass_x, mass_y, mass_z
-time_step = 1 / 100.0
+time_step = 1 / 700.0
 dx, dy, dz = 1, 0, 0
 simulation_time = 0
 state = 1
@@ -66,8 +66,8 @@ T_fight = 2 * dz / -g
 T_stance = 2*np.pi* np.sqrt(m_mass_id/k_spring)
 
 cameraDistance = 6
-cameraYaw = 45
-cameraPitch = -30
+cameraYaw = 38
+cameraPitch = -38
 cameraTargetPosition = [0, 0, 0]
 
 print("System initialized. Waiting for release...")
