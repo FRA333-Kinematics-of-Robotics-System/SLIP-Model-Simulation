@@ -108,7 +108,7 @@ $$\ddot{r}(t) = \frac{mr(t)(\dot{\theta}(t)^2 + \sin^2(\theta(t))\dot{\phi}(t)^2
 
 To find $r(t)$, we can integrate this equation twice:
 
-$$r(t) = \int\int \ddot{r}(t) , dt$$
+$$r(t) = \iint \ddot{r}(t) , dt$$
 
 **Euler-Lagrange Equation for $\theta$:**
 
@@ -116,7 +116,7 @@ $$\ddot{\theta}(t) = \frac{g\sin(\theta(t)) - 2\dot{r}(t)\dot{\theta}(t) + \frac
 
 To find $\theta(t)$, we can integrate this equation once:
 
-$$\theta(t) = \int\int \ddot{\theta}(t) , dt$$
+$$\theta(t) = \iint \ddot{\theta}(t) , dt$$
 
 **Euler-Lagrange Equation for $\phi$:**
 
@@ -124,7 +124,7 @@ $$\ddot{\phi}(t) = \frac{-\dot{r}(t)\sin(2\theta(t))\dot{\phi}(t)\dot{\theta}(t)
 
 To find $\phi(t)$, we can integrate this equation once:
 
-$$\phi(t) = \int\int \ddot{\phi}(t) , dt$$
+$$\phi(t) = \iint \ddot{\phi}(t) , dt$$
 
 **where**:
 - $r(t)$ is the length of the spring compressed.
