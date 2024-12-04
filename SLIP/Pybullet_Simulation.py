@@ -31,31 +31,11 @@ p.changeVisualShape(
     rgbaColor=[1, 0, 0, 1] 
 )
 
-p.changeVisualShape(
-    objectUniqueId=spring_id,
-    linkIndex=1,
-    rgbaColor=[1, 0, 0, 1] 
-)
+def UpdateSimulation(spring_id, r, spring_x, spring_y, spring_z, theta, phi):
 
-K_spring_id = p.addUserDebugParameter(" K Constant", 0, 1000, 100)
-m_mass_id = p.addUserDebugParameter(" Mass", 0, 10, 1)
+    spring_index = 0
 
-l_rest = r0
-k_spring = p.readUserDebugParameter(K_spring_id)
-
-x_i, y_i, z_i = 0, 0, 0
-time_step = 1 / 240.0
-dx, dy, dz = 1, 0, 0
-simulation_time = 0
-state = 1
-previous_r = r
-T_fight = 2 * dz / -g
-T_stance = 2*np.pi* np.sqrt(m_mass_id/k_spring)
-
-def UpdateSimulation(spring_id, r, spring_x, spring_y, spring_z, theta, phi, theta_dot):
-    spring_index = 1
-
-    new_position = r
+    new_position = r0 - r
 
     p.setJointMotorControl2(
         spring_id,
@@ -64,19 +44,26 @@ def UpdateSimulation(spring_id, r, spring_x, spring_y, spring_z, theta, phi, the
         targetPosition=new_position,
     )
 
-    if phase == 'fight':
-        theta_dot = -theta_dot
-    elif phase == 'stance':
-        theta_dot = theta_dot
-
-    time_step = 0.01
-    theta = theta + theta_dot * time_step
-
     p.resetBasePositionAndOrientation(
         spring_id,
         [spring_x , spring_y , spring_z],
         p.getQuaternionFromEuler([0, theta, phi])
     )
+
+K_spring_id = p.addUserDebugParameter(" K Constant", 0, 1000, 100)
+m_mass_id = p.addUserDebugParameter(" Mass", 0, 10, 1)
+
+l_rest = r0
+k_spring = p.readUserDebugParameter(K_spring_id)
+
+x_i, y_i, z_i = mass_x, mass_y, mass_z
+time_step = 1 / 240.0
+dx, dy, dz = 1, 0, 0
+simulation_time = 0
+state = 1
+previous_r = r
+T_fight = 2 * dz / -g
+T_stance = 2*np.pi* np.sqrt(m_mass_id/k_spring)
     
 print("System initialized. Waiting for release...")
 input("Press Enter to release the system.")
@@ -87,7 +74,7 @@ while True:
     if state == 1:
         phase = "stance"
         r, r_dot, theta, theta_dot, phi, phi_dot, mass_x, mass_y, mass_z = StancePhase(
-            m_mass_id, k_spring, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot
+            m_mass_id, k_spring, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot ,spring_x, spring_y, spring_z
         )
 
         if r >= r0 :
@@ -106,16 +93,16 @@ while True:
 
         if (spring_z <= 0) & (t_sim >= T_fight/2):
             phase = "touchdown"
-            
-            spring_z, x_i, y_i, z_i, dx, dy, dz, r_dot, phi_dot, theta_dot, theta, T_stance, t_sim, state = FightToStance(
-                mass_x, mass_y, mass_z, r_dot, phi_dot, theta_dot, theta_i, m_mass_id ,k_spring
+
+            spring_z, x_i, y_i, z_i, dx, dy, dz, r_dot, phi_dot, theta_dot, T_stance, t_sim, state = FightToStance(
+                mass_x, mass_y, mass_z, r_dot, phi_dot, theta_dot, m_mass_id ,k_spring
             )
 
             phase = "stance"
 
     elif (state == 3) & (phase == "stance"):
         r, r_dot, theta, theta_dot, phi, phi_dot, mass_x, mass_y, mass_z = StancePhase(
-            m_mass_id, k_spring, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot
+            m_mass_id, k_spring, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot, spring_x, spring_y, spring_z
         )
         t_sim += time_step
         if (r >= r0) & (t_sim >= T_stance/2):
@@ -126,13 +113,14 @@ while True:
             
             phase = "fight"
 
-    UpdateSimulation(spring_id, r, spring_x, spring_y, spring_z, theta, phi, theta_dot)
+    UpdateSimulation(spring_id, r, spring_x, spring_y, spring_z, theta, phi)
 
     print(f"Phase: {phase}")
     print(f"Mass Position: x={mass_x}, y={mass_y}, z={mass_z}", f"Spring Base: x={spring_x}, y={spring_y}, z={spring_z}")
-    print(f"theta: {theta}")
+    print(f"theta: {theta}, phi: {phi}")
     print(f"length spring: r= {r}")
     #print(f"time_phase: {t_sim}", f"T_fight: {T_fight}", f"T_stance: {T_stance}")
+
     print(f"Angulavelocity: r_dot={r_dot}, theta_dot={theta_dot}, phi_dot={phi_dot}")
     print("\n")
     # print(f"velocity: x_dot={dx}, y_dot={dy}, z_dot={dz}")

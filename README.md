@@ -1,6 +1,6 @@
 # SLIP Model Simulation in 3D Motion
 
-This project provides a simulation of the SLIP (Spring Loaded Inverted Pendulum) model in 3D motion using PyBullet. The model allows you to adjust various parameters for the simulation. It includes kinematic equations that can be utilized for other simulations, and the project comes with a pre-configured URDF file that you can modify.
+This project provides a simulation of the `SLIP (Spring Loaded Inverted Pendulum)` model in 3D motion using PyBullet. The model allows you to adjust various parameters for the simulation. It includes kinematic equations that can be utilized for other simulations, and the project comes with a pre-configured URDF file that you can modify.
 
 ## Table of Contents
 
@@ -14,7 +14,6 @@ This project provides a simulation of the SLIP (Spring Loaded Inverted Pendulum)
 - [Kinematic Equations](#kinematic-equations)
 - [Functions](#functions)
 - [Contributions](#contributions)
-- [License](#license)
 
 ## Introduction
 

@@ -1,6 +1,6 @@
 import numpy as np
 
-def InitialState(_r0=1.0, _r=0.3, _theta=np.pi/6, _phi=0.0, _r_dot=0.0, _theta_dot=0.0, _phi_dot=0.0, _g=-9.81):
+def InitialState(_r0=1.0, _r=0.3, _theta=np.pi/6, _phi=np.pi/6, _r_dot=0.0, _theta_dot=0.0, _phi_dot=0.0, _g=-9.81):
     r0 = _r0
     r = _r
     theta = _theta
@@ -52,7 +52,7 @@ def AngularToLinearVelocity(theta, phi, r_dot, r, theta_dot, phi_dot):
     )
     return dx, dy, dz
 
-def FightPhase(mass_x, mass_y, mass_z, r, theta, phi, theta_i, t, g, dx, dy, dz, T):
+def FightPhase(x_i, y_i, z_i, r, theta, phi, theta_i, t, g, dx, dy, dz, T):
 
     mass_x = x_i + dx * t
     mass_y = y_i + dy * t
@@ -66,7 +66,8 @@ def FightPhase(mass_x, mass_y, mass_z, r, theta, phi, theta_i, t, g, dx, dy, dz,
 
     return mass_x, mass_y, mass_z, spring_x, spring_y, spring_z, theta
 
-def StancePhase(m, k, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot):
+def StancePhase(m, k, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot ,spring_x, spring_y, spring_z):
+
     r_ddot = (m * r * (theta_dot**2 + (np.sin(theta)**2) * (phi_dot**2)) +
               k * (r0 - r) - m * g * np.cos(theta)) / m
 
@@ -82,23 +83,23 @@ def StancePhase(m, k, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot
     r_dot += r_ddot * time_step
     r += r_dot * time_step
 
-    r = max(0, min(r, 2*r0))
+    r = max(0, min(r, r0))
 
     theta_dot += theta_ddot * time_step
     theta += theta_dot * time_step
-    theta = theta % (2 * np.pi)
+    theta = (theta + np.pi) % (2 * np.pi) - np.pi
 
     phi_dot += phi_ddot * time_step
     phi += phi_dot * time_step
     phi = phi % (2 * np.pi)
 
-    mass_x = r * np.sin(theta) * np.cos(phi)
-    mass_y = r * np.sin(theta) * np.sin(phi)
-    mass_z = r * np.cos(theta)
+    mass_x = spring_x + r * np.sin(theta) * np.cos(phi)
+    mass_y = spring_y + r * np.sin(theta) * np.sin(phi)
+    mass_z = spring_z + r * np.cos(theta)
 
     return r, r_dot, theta, theta_dot, phi, phi_dot, mass_x, mass_y, mass_z
 
-def FightToStance(mass_x, mass_y, mass_z, r_dot, phi_dot, theta_dot, theta_i, m_mass_id ,k_spring):
+def FightToStance(mass_x, mass_y, mass_z, r_dot, phi_dot, theta_dot, m_mass_id ,k_spring):
     x_i = mass_x
     y_i = mass_y
     z_i = mass_z
@@ -107,13 +108,13 @@ def FightToStance(mass_x, mass_y, mass_z, r_dot, phi_dot, theta_dot, theta_i, m_
 
     T_stance = 2*np.pi* np.sqrt(m_mass_id/k_spring)
     t_sim = 0
-    theta = -theta_i
+    
     r_dot, phi_dot, theta_dot = -r_dot, -phi_dot, -theta_dot
     dx, dy, dz = 0, 0, 0
 
     state = 3
 
-    return spring_z, x_i, y_i, z_i, dx, dy, dz, r_dot, phi_dot, theta_dot, theta, T_stance, t_sim, state
+    return spring_z, x_i, y_i, z_i, dx, dy, dz, r_dot, phi_dot, theta_dot, T_stance, t_sim, state
 
 def StanceToFlight(mass_x, mass_y, mass_z, theta, phi, r_dot, r, theta_dot, phi_dot):
     x_i = mass_x
@@ -122,6 +123,7 @@ def StanceToFlight(mass_x, mass_y, mass_z, theta, phi, r_dot, r, theta_dot, phi_
 
     dx, dy, dz = AngularToLinearVelocity(theta, phi, r_dot, r, theta_dot, phi_dot)
     theta_i = theta
+    theta_i = (theta + np.pi) % (2 * np.pi) - np.pi
     T_fight = 2 * dz / -g
     t_sim = 0
     state = 2

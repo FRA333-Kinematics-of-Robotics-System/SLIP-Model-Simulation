@@ -3,21 +3,21 @@
      Commit Version: 1.6.0-4-g7f85cfe  Build Version: 1.6.7995.38578
      For more information, please see http://wiki.ros.org/sw_urdf_exporter -->
 <robot
-  name="Assem4">
+  name="Assem1">
   <link
     name="base_link">
     <inertial>
       <origin
-        xyz="-1.1015E-16 -2.0643E-16 0.5"
+        xyz="6.9389E-18 0 0.5"
         rpy="0 0 0" />
       <mass
         value="0.5" />
       <inertia
         ixx="0.58215"
-        ixy="5.0822E-19"
-        ixz="9.968E-17"
+        ixy="4.941E-20"
+        ixz="-3.3881E-19"
         iyy="0.58215"
-        iyz="-1.3001E-16"
+        iyz="-7.228E-18"
         izz="0.007665" />
     </inertial>
     <visual>
@@ -48,17 +48,17 @@
     name="mass_Link">
     <inertial>
       <origin
-        xyz="3.296E-17 8.5869E-17 0.1"
+        xyz="0 0 -0.011641"
         rpy="0 0 0" />
       <mass
-        value="1" />
+        value="1.5" />
       <inertia
-        ixx="0.016755"
-        ixy="6.6741E-36"
-        ixz="-9.6296E-35"
-        iyy="0.016755"
-        iyz="3.8519E-34"
-        izz="0.016755" />
+        ixx="0.018215"
+        ixy="1.4637E-35"
+        ixz="-1.8876E-34"
+        iyy="0.018215"
+        iyz="-4.4669E-35"
+        izz="0.017293" />
     </inertial>
     <visual>
       <origin
@@ -86,67 +86,14 @@
   </link>
   <joint
     name="mass_joint"
-    type="fixed">
+    type="prismatic">
     <origin
-      xyz="0 0 1"
+      xyz="0 0 1.1"
       rpy="0 0 0" />
     <parent
       link="base_link" />
     <child
       link="mass_Link" />
-    <axis
-      xyz="0 0 0" />
-  </joint>
-  <link
-    name="Spring_Link">
-    <inertial>
-      <origin
-        xyz="8.3267E-17 -8.5869E-17 0.875"
-        rpy="0 0 0" />
-      <mass
-        value="0.5" />
-      <inertia
-        ixx="0.0014594"
-        ixy="1.0588E-19"
-        ixz="-3.634E-20"
-        iyy="0.0014594"
-        iyz="2.247E-19"
-        izz="0.00053812" />
-    </inertial>
-    <visual>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="meshes\Spring_Link.STL" />
-      </geometry>
-      <material
-        name="">
-        <color
-          rgba="0.79216 0.81961 0.93333 1" />
-      </material>
-    </visual>
-    <collision>
-      <origin
-        xyz="0 0 0"
-        rpy="0 0 0" />
-      <geometry>
-        <mesh
-          filename="meshes\Spring_Link.STL" />
-      </geometry>
-    </collision>
-  </link>
-  <joint
-    name="Spring_joint"
-    type="prismatic">
-    <origin
-      xyz="0 0 0"
-      rpy="0 0 0" />
-    <parent
-      link="base_link" />
-    <child
-      link="Spring_Link" />
     <axis
       xyz="0 0 -1" />
     <limit
