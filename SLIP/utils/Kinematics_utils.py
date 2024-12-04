@@ -1,4 +1,3 @@
-# import Library
 import numpy as np
 
 def InitialState(_r0=1.0, _r=0.3, _theta=np.pi/6, _phi=0.0, _r_dot=0.0, _theta_dot=0.0, _phi_dot=0.0, _g=-9.81):
@@ -14,10 +13,11 @@ def InitialState(_r0=1.0, _r=0.3, _theta=np.pi/6, _phi=0.0, _r_dot=0.0, _theta_d
     return r, theta, phi, r_dot, theta_dot, phi_dot, r0, g
 
 r, theta, phi, r_dot, theta_dot, phi_dot, r0, g = InitialState()
+
 phase = "Initial"
-# Start Position of mass
+x_i, y_i, z_i = 0, 0, 0
+
 def InitialMassPosition():
-    # คำนวณตำแหน่งของ Base (Mass) ที่ปลายบนของสปริง
     mass_x = r * np.sin(theta) * np.cos(phi)
     mass_y = r * np.sin(theta) * np.sin(phi)
     mass_z = r * np.cos(theta)
@@ -25,7 +25,6 @@ def InitialMassPosition():
 
 mass_x, mass_y, mass_z = InitialMassPosition()
 
-# Start position of Spring
 def InitialSpringPosion():
     spring_x = mass_x - r * np.sin(theta) * np.cos(phi)
     spring_y = mass_y - r * np.sin(theta) * np.sin(phi)
@@ -35,7 +34,6 @@ def InitialSpringPosion():
 spring_x, spring_y, spring_z = InitialSpringPosion()
 
 def AngularToLinearVelocity(theta, phi, r_dot, r, theta_dot, phi_dot):
-    # Calculate linear velocities
     dx = (
         np.sin(theta) * np.cos(phi) * r_dot +
         r * np.cos(theta) * np.cos(phi) * theta_dot -
@@ -54,62 +52,45 @@ def AngularToLinearVelocity(theta, phi, r_dot, r, theta_dot, phi_dot):
     )
     return dx, dy, dz
 
-# Function for Fight Phase
 def FightPhase(mass_x, mass_y, mass_z, r, theta, phi, theta_i, t, g, dx, dy, dz, T):
 
-    # อัปเดตตำแหน่งของมวลในช่วง Fight phase
     mass_x = x_i + dx * t
     mass_y = y_i + dy * t
     mass_z = z_i + dz * t + 0.5 * g * t ** 2
 
-    # R = np.sqrt(mass_x**2 + mass_y**2 + mass_z**2)
-
-    # theta = np.arccos(mass_z / R)
-
-    # คำนวณตำแหน่งของสปริงในช่วง Fight phase
     spring_x = mass_x - r * np.sin(theta) * np.cos(phi)
     spring_y = mass_y - r * np.sin(theta) * np.sin(phi)
     spring_z = mass_z - r * np.cos(theta)
 
-    # คำนวณ theta โดยการลดลงจาก theta_i ไป -theta_i
     theta = theta_i - (2 * theta_i / T) * t
 
     return mass_x, mass_y, mass_z, spring_x, spring_y, spring_z, theta
 
-# Function for Stance Phase
 def StancePhase(m, k, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot):
-    # คำนวณ \ddot{r}(t) (Radial acceleration)
     r_ddot = (m * r * (theta_dot**2 + (np.sin(theta)**2) * (phi_dot**2)) +
               k * (r0 - r) - m * g * np.cos(theta)) / m
 
-    # คำนวณ \ddot{\theta}(t) (Angular acceleration in theta)
     theta_ddot = (g * np.sin(theta) - 2 * r_dot * theta_dot +
                   0.5 * np.sin(2 * theta) * r * (phi_dot**2)) / r
 
-    # คำนวณ \ddot{\phi}(t) (Angular acceleration in phi)
-    if np.sin(theta) != 0:  # เพื่อหลีกเลี่ยงการหารด้วย 0
+    if np.sin(theta) != 0:
         phi_ddot = (-r * np.sin(2 * theta) * phi_dot * theta_dot -
                     2 * r_dot * np.sin(theta) * phi_dot) / (r * np.sin(theta))
     else:
-        phi_ddot = 0  # หาก \sin(\theta) = 0
+        phi_ddot = 0
 
-    #print(f"Angular Accerelation: r_ddot={r_ddot}, theta_ddot={theta_ddot}, phi_ddot={phi_ddot}")
-
-    # อัปเดตค่าความเร็วเชิงมุมและมุม
     r_dot += r_ddot * time_step
     r += r_dot * time_step
-    # if r <= 0:
-    #     r = r0  # Reset to the natural length of the spring
 
     r = max(0, min(r, 2*r0))
 
     theta_dot += theta_ddot * time_step
     theta += theta_dot * time_step
-    theta = theta % (2 * np.pi)  # Normalize theta
+    theta = theta % (2 * np.pi)
 
     phi_dot += phi_ddot * time_step
     phi += phi_dot * time_step
-    phi = phi % (2 * np.pi)  # Normalize phi
+    phi = phi % (2 * np.pi)
 
     mass_x = r * np.sin(theta) * np.cos(phi)
     mass_y = r * np.sin(theta) * np.sin(phi)
@@ -117,7 +98,6 @@ def StancePhase(m, k, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot
 
     return r, r_dot, theta, theta_dot, phi, phi_dot, mass_x, mass_y, mass_z
 
-# Function for Touchdown (Fight to Stance)
 def FightToStance(mass_x, mass_y, mass_z, r_dot, phi_dot, theta_dot, theta_i, m_mass_id ,k_spring):
     x_i = mass_x
     y_i = mass_y
@@ -135,8 +115,6 @@ def FightToStance(mass_x, mass_y, mass_z, r_dot, phi_dot, theta_dot, theta_i, m_
 
     return spring_z, x_i, y_i, z_i, dx, dy, dz, r_dot, phi_dot, theta_dot, theta, T_stance, t_sim, state
 
-
-# Function for Take-off (Stance to Fight)
 def StanceToFlight(mass_x, mass_y, mass_z, theta, phi, r_dot, r, theta_dot, phi_dot):
     x_i = mass_x
     y_i = mass_y
@@ -153,8 +131,3 @@ def StanceToFlight(mass_x, mass_y, mass_z, theta, phi, r_dot, r, theta_dot, phi_
     spring_z = z_i - r * np.cos(theta)
 
     return x_i, y_i, z_i, dx, dy, dz, spring_x, spring_y, spring_z, theta_i, T_fight, t_sim, state
-
-
-x_i, y_i, z_i = 0, 0, 0
-
-# Constants for the simulation

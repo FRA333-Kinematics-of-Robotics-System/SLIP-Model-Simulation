@@ -37,8 +37,8 @@ p.changeVisualShape(
     rgbaColor=[1, 0, 0, 1] 
 )
 
-K_spring_id = p.addUserDebugParameter("K Constant", 0, 1000, 100)
-m_mass_id = p.addUserDebugParameter("Mass", 0, 10, 1)
+K_spring_id = p.addUserDebugParameter(" K Constant", 0, 1000, 100)
+m_mass_id = p.addUserDebugParameter(" Mass", 0, 10, 1)
 
 l_rest = r0
 k_spring = p.readUserDebugParameter(K_spring_id)
