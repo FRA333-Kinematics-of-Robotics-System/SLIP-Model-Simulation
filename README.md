@@ -72,7 +72,7 @@ You can modify the following parameters to customize the simulation:
 #### `Spring Length`: 
 
 ```py
-def InitialState(_r0=1.0, _r=0.3, _theta=np.pi/6, _phi=0.0, _r_dot=0.0, _theta_dot=0.0, _phi_dot=0.0, _g=-9.81):
+def InitialState(_r0=1.0, _r=0.3):
 ```
 
 - `_r0` : Length of the spring (m)
@@ -88,11 +88,11 @@ r, theta, phi, r_dot, theta_dot, phi_dot, r0, g = InitialState(_r0=1.5, _r=0.7)
 #### `Initial_Orientation`:
 
 ```py
-def InitialState(_r0=1.0, _r=0.3, _theta=np.pi/6, _phi=0.0, _r_dot=0.0, _theta_dot=0.0, _phi_dot=0.0, _g=-9.81):
+def InitialState(_theta=np.pi/6, _phi=0.0):
 ```
 
-- `_theta` : Starting orientation of the robot in z axis (radian)
-- `_phi` : Starting orientation of the robot between xy axis (radian)
+- `_theta` : Starting orientation of the robot in z axis (in radians)
+- `_phi` : Starting orientation of the robot between xy axis (in radians)
 
 **Example**
 
@@ -135,18 +135,27 @@ To find $\phi(t)$, we can integrate this equation once:
 $$\phi(t) = \iint \ddot{\phi}(t) , dt$$
 
 **where**:
+
 - $r(t)$ is the length of the spring compressed.
+
 - $\theta(t)$ is the orientation of robot in z axis .
+
 - $\phi(t)$ is the orientation of robot between xy axis.
+
 - $m$ is the mass of the robot.
+
 - $g$ is the acceleration due to gravity.
+
 - $k$ is the spring constant.
+
 - $r_0$ is the length of the spring.
 
 ### **`Stance Phase` | Position of Mass**: 
 
 $$x(t) = x_c + \sin(\theta(t))\cos(\phi(t))$$
+
 $$y(t) = y_c + \sin(\theta(t))\sin(\phi(t))$$
+
 $$z(t) = z_c + r(t) + \cos(\theta(t))$$
 
 **where**:
@@ -156,33 +165,56 @@ $$z(t) = z_c + r(t) + \cos(\theta(t))$$
 ### **`Flight Phase` | Position of Mass**:
 
 $$x(t) = x_i + \dot{x}_it$$
+
 $$y(t) = y_i + \dot{y}_it$$
+
 $$z(t) = z_i + \dot{z}_it - \frac{1}{2}gt^2$$
 
 **where**:
 - $x_i, y_i, z_i$ are the initial position before projectile.
+
 - $\dot{x}_i, \dot{y}_i, \dot{z}_i$ are the initial velocity components before projectile.
+
 - $g$ is the acceleration due to gravity.
 
 ### **`Flight Phase` | Position of Spring Base**:
 
 $$x_c = x(t) - r(t)\sin(\theta(t))\cos(\phi(t))$$
+
 $$y_c = y(t) - r(t)\sin(\theta(t))\sin(\phi(t))$$
+
 $$z_c = z(t) - r(t)\cos(\theta(t))$$
 
 **Where**:
 
 - $x(t)$: The x-coordinate of the center of mass position.
+
 - $y(t)$: The y-coordinate of the center of mass position.
+
 - $z(t)$: The z-coordinate of the center of mass position.
 
 ## Functions
 
-### `StancePhase(m, k, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot ,spring_x, spring_y, spring_z)`
+### `InitialState()`
 
-Simulates the SLIP model dynamics in 3D using the given parameters.
+```py
+def InitialState(_r0=1.0, _r=0.3, _theta=np.pi/6, _phi=np.pi/6, _r_dot=0.0, _theta_dot=0.0, _phi_dot=0.0, _g=-9.81)
+```
 
-### `calculate_kinematics()`
+The `InitialState` function initializes and returns the initial state parameters for system.
+
+**Needed Parameters**:
+- `_r0` (default: 1.0): Length of the spring (m)
+
+- `_r` (default: 0.3): Length of the spring compressed (m)
+
+- `_theta` (default: π/6): Starting orientation of the robot in z axis (in radians)
+
+- `_phi` (default: π/6): Starting orientation of the robot between xy axis (in radians)
+
+- `_g` (default: -9.81): Gravitational acceleration
+
+### `StancePhase()`
 
 Calculates the kinematics of the robot based on the current state and parameters.
 
