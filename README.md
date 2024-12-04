@@ -4,7 +4,7 @@ This project provides a simulation of the `SLIP (Spring Loaded Inverted Pendulum
 
 ## Project Preview
 
-![Preview](.image/Preview_Project.gif)
+![Preview](.image/SLIP_Preview.gif)
 
 ## Table of Contents
 
