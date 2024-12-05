@@ -19,10 +19,25 @@ This project provides a simulation of the `SLIP (Spring Loaded Inverted Pendulum
 - [Installation](#installation)
 - [Usage](#usage)
   - [Adjustable Parameters](#adjustable-parameters)
+    - [Spring Stiffness](#spring-stiffness)
+    - [Mass](#mass)
+    - [Spring Length](#spring-length)
+    - [Initial Orientation](#initial-orientation)
+    - [Jump Count](#jump-count)
   - [URDF File Modification](#urdf-file-modification)
   - [Run a Program](#run-a-program)
 - [Kinematic Equations](#kinematic-equations)
+  - [Equation of Motion](#stance-phase--equation-of-motion)
+  - [SLIP Phases](#slip-phases)
+    - [Stance Phase | Position of Mass](#stance-phase--position-of-mass)
+    - [Flight Phase | Position of Mass](#flight-phase--position-of-mass)
+    - [Flight Phase | Position of Spring Base](#flight-phase--position-of-spring-base)
 - [Functions](#functions)
+  - [InitialState()](#initialstate)
+  - [StancePhase()](#stancephase)
+  - [StancePhaseControl()](#stancephasecontrol)
+  - [StanceToFlight()](#stancetoflight)
+  - [FlightPhase()](#flightphase)
 - [References](#References)
 - [Contributions](#contributions)
 
@@ -89,7 +104,7 @@ def InitialState(_r0=1.0, _r=0.3):
 
 - `_r0` : Length of the spring (m)
 - `_r` : Length of the spring compressed (m)
-- Adjust via `Pybullet_Simulation.py` file at `line 14`.
+- Adjust via `Pybullet_Simulation.py` file at `line 15`.
 
 **Example**
 
@@ -97,7 +112,7 @@ def InitialState(_r0=1.0, _r=0.3):
 r, theta, phi, r_dot, theta_dot, phi_dot, r0, g = InitialState(_r0=1.5, _r=0.7)
 ```
 
-#### `Initial_Orientation`:
+#### `Initial Orientation`:
 
 ```py
 def InitialState(_theta=np.pi/6, _phi=0.0):
@@ -111,6 +126,9 @@ def InitialState(_theta=np.pi/6, _phi=0.0):
 ```py
 r, theta, phi, r_dot, theta_dot, phi_dot, r0, g = InitialState(_theta=np.pi/7, _phi=np.pi/6)
 ```
+
+#### `Jump Count`:
+
 
 ### URDF File Modification
 
@@ -284,6 +302,41 @@ The `StancePhase` function simulates the kinematics of a Spring-Loaded Inverted 
 
 **Return**:
 - Absolute mass point coordinates (`mass_x`, `mass_y`, `mass_z`)
+
+### `StancePhaseControl()`
+
+```py
+def StancePhaseControl(m, k, r0, g, time_step, r, r_dot, theta, theta_target, theta_dot, phi, phi_dot ,spring_x, spring_y, spring_z, Kp, Kd):
+```
+
+The `StancePhaseControl` function simulates the kinematics of a Spring-Loaded Inverted Pendulum (SLIP) from equation giving before, during its stance phase, calculating the motion and position of a mass with a `Kp` and `Kd` control.
+
+**Needed Parameters**:
+
+- `m`: Mass of the robot (kg)
+
+- `k`: Spring constant (N/m)
+
+- `r0`: Length of the spring (m)
+
+- `g`: Gravitational acceleration ($m/s^2$)
+
+- `time_step`: Simulation time increment (s)
+
+- `r`: Length of the spring compressed (m)
+
+- `theta`: Orientation of the robot in z axis (in radians)
+
+- `phi`: Orientation of the robot between xy axis (in radians)
+
+- `spring_x`, `spring_y`, `spring_z`: Position of spring attachment coordinates
+
+- `Kp`: Proportional gain for theta control
+
+- `Kd`: Derivative gain for theta control
+
+**Return**:
+- Absolute mass point coordinates from a PD control (`mass_x`, `mass_y`, `mass_z`)
 
 ### `StanceToFlight()`
 
