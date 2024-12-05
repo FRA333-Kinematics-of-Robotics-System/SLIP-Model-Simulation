@@ -345,15 +345,15 @@ The `FlightPhase` function simulates the kinematics of a Spring-Loaded Inverted 
 
 <p>
   <img src=".image/ImJAiiiii.png" width="50" height="50" style="vertical-align: middle; border-radius: 50%; margin-right: 10px;">
-  <b>Apichaya Sriwong</b> - <a href="https://github.com/ImJAiiiii">GitHub Profile</a> - Developer Researcher
+  <b>Apichaya Sriwong</b> - <a href="https://github.com/ImJAiiiii">ImJAiiiii</a> - Developer Researcher
 </p>
 
 <p>
   <img src=".image/Toonzaza.png" width="50" height="50" style="vertical-align: middle; border-radius: 50%; margin-right: 10px;">
-  <b>Poppeth Petchamli</b> - <a href="https://github.com/Toonzaza">GitHub Profile</a> - Developer
+  <b>Poppeth Petchamli</b> - <a href="https://github.com/Toonzaza">Toonzaza</a> - Developer
 </p>
 
 <p>
   <img src=".image/TeeTyJunGz.png" width="50" height="50" style="vertical-align: middle; border-radius: 50%; margin-right: 10px;">
-  <b>Vasayos Tosiri</b> - <a href="https://github.com/TeeTyJunGz">GitHub Profile</a> - Developer
+  <b>Vasayos Tosiri</b> - <a href="https://github.com/TeeTyJunGz">TeeTyJunGz</a> - Developer
 </p>
