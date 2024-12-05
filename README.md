@@ -154,6 +154,9 @@ In SLIP directory contains 2 python file that you can use.
 
 You can easily run those filw using run button on the top right of a Visual Studio Code windows.
 
+![Sim](.images/Program_Run.png)
+
+After run a program Pybullet simulation will pop-up you can adjust parameter before lauch a SLIP, then press `ENTER` for start a simulation
 ## Kinematic Equations
 
 The following kinematic equations are utilized in the project.
