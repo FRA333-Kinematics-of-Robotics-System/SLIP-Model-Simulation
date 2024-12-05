@@ -23,7 +23,7 @@ This project provides a simulation of the `SLIP (Spring Loaded Inverted Pendulum
   - [Run a Program](#run-a-program)
 - [Kinematic Equations](#kinematic-equations)
 - [Functions](#functions)
-- [Reference](#References)
+- [References](#References)
 - [Contributions](#contributions)
 
 ## Introduction
