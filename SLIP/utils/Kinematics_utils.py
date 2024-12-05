@@ -70,7 +70,7 @@ def StancePhase(m, k, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot
 
     r_ddot = (m * r * (theta_dot**2 + (np.sin(theta)**2) * (phi_dot**2)) +
               k * (r0 - r) - m * g * np.cos(theta)) / m
-
+    
     theta_ddot = (g * np.sin(theta) - 2 * r_dot * theta_dot +
                   0.5 * np.sin(2 * theta) * r * (phi_dot**2)) / r
 
@@ -99,22 +99,59 @@ def StancePhase(m, k, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot
 
     return r, r_dot, theta, theta_dot, phi, phi_dot, mass_x, mass_y, mass_z
 
-def FightToStance(mass_x, mass_y, mass_z, r_dot, phi_dot, theta_dot, m_mass_id ,k_spring):
-    x_i = mass_x
-    y_i = mass_y
-    z_i = mass_z
+
+def StancePhaseControl(m, k, r0, g, time_step, r, r_dot, theta, theta_target, theta_dot, phi, phi_dot ,spring_x, spring_y, spring_z, Kp, Kd):
+
+    r_ddot = (m * r * (theta_dot**2 + (np.sin(theta)**2) * (phi_dot**2)) +
+              k * (r0 - r) - m * g * np.cos(theta)) / m
+    
+    theta_control = Kp * (theta_target - theta) - Kd * theta_dot
+
+    theta_ddot = (g * np.sin(theta) - 2 * r_dot * theta_dot +
+                0.5 * np.sin(2 * theta) * r * (phi_dot**2)) / r + theta_control
+
+    if np.sin(theta) != 0:
+        phi_ddot = (-r * np.sin(2 * theta) * phi_dot * theta_dot -
+                    2 * r_dot * np.sin(theta) * phi_dot) / (r * np.sin(theta))
+    else:
+        phi_ddot = 0
+
+    r_dot += r_ddot * time_step
+    r += r_dot * time_step
+
+    r = max(0, min(r, r0))
+
+    theta_dot += theta_ddot * time_step
+    theta += theta_dot * time_step
+    theta = (theta + np.pi) % (2 * np.pi) - np.pi
+
+    phi_dot += phi_ddot * time_step
+    phi += phi_dot * time_step
+    phi = phi % (2 * np.pi)
+
+    mass_x = spring_x + r * np.sin(theta) * np.cos(phi)
+    mass_y = spring_y + r * np.sin(theta) * np.sin(phi)
+    mass_z = spring_z + r * np.cos(theta)
+
+    return r, r_dot, theta, theta_dot, phi, phi_dot, mass_x, mass_y, mass_z
+
+def FlightToStance(mass_x, mass_y, mass_z, r_dot, phi_dot, theta_dot, theta, m_mass_id ,k_spring):
+    x_i, y_i, z_i = mass_x, mass_y, mass_z
 
     spring_z = 0
 
     T_stance = 2*np.pi* np.sqrt(m_mass_id/k_spring)
     t_sim = 0
-    
-    r_dot, phi_dot, theta_dot = -r_dot, -phi_dot, -theta_dot
+
+    theta_i = theta
+    theta_i = (theta + np.pi) % (2 * np.pi) - np.pi
+
+    r_dot, phi_dot, theta_dot = -r_dot, 0, -theta_dot
     dx, dy, dz = 0, 0, 0
 
     state = 3
 
-    return spring_z, x_i, y_i, z_i, dx, dy, dz, r_dot, phi_dot, theta_dot, T_stance, t_sim, state
+    return spring_z, x_i, y_i, z_i, dx, dy, dz, r_dot, phi_dot, theta_dot, T_stance, t_sim, state, theta_i
 
 def StanceToFlight(mass_x, mass_y, mass_z, theta, phi, r_dot, r, theta_dot, phi_dot):
     x_i = mass_x
