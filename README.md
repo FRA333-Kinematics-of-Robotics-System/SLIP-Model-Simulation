@@ -23,7 +23,7 @@ This project provides a simulation of the `SLIP (Spring Loaded Inverted Pendulum
     - [Mass](#mass)
     - [Spring Length](#spring-length)
     - [Initial Orientation](#initial-orientation)
-    - [Jump Count](#jump-count)
+    - [Jump Count](#slip-jump-count)
   - [URDF File Modification](#urdf-file-modification)
   - [Run a Program](#run-a-program)
 - [Kinematic Equations](#kinematic-equations)
@@ -84,50 +84,18 @@ The SLIP model is a simplified model used to describe the kinematics of a runnin
 
 You can modify the following parameters to customize the simulation:
 
-#### `Spring Stiffness`:
-![K_Constant](.images/K_Constant.png)
-- Stiffness of the spring (N/m)
-- Adjust via Pybullet param on top right of simulation.
-- Or Adjust in `Pybullet_Simulation.py` file at `line 44`.
+![GUI](.images/gui.png)
 
 #### `Mass`:
-![Mass](.images/Mass.png)
 - Mass of the robot (kg)
-- Adjust via Pybullet param on top right of simulation.
-- Or Adjust in `Pybullet_Simulation.py` file at `line 41`.
-
-#### `Spring Length`: 
-
-```py
-def InitialState(_r0=1.0, _r=0.3):
-```
-
-- `_r0` : Length of the spring (m)
-- `_r` : Length of the spring compressed (m)
-- Adjust via `Pybullet_Simulation.py` file at `line 15`.
-
-**Example**
-
-```py
-r, theta, phi, r_dot, theta_dot, phi_dot, r0, g = InitialState(_r0=1.5, _r=0.7)
-```
-
-#### `Initial Orientation`:
-
-```py
-def InitialState(_theta=np.pi/6, _phi=0.0):
-```
-
-- `_theta` : Starting orientation of the robot in z axis (in radians)
-- `_phi` : Starting orientation of the robot between xy axis (in radians)
-
-**Example**
-
-```py
-r, theta, phi, r_dot, theta_dot, phi_dot, r0, g = InitialState(_theta=np.pi/7, _phi=np.pi/6)
-```
-
-#### `Jump Count`:
+#### `Spring Stiffness`: 
+- Stiffness of the spring (N/m)
+#### `Spring Velocity`: 
+- Velocity of spring compressed (m/s)
+#### `Initial Orientation Velocity`:
+- Angular velocity in $\theta$ and $\phi$ (rad/s)
+#### `SLIP Jump Count`
+- Jump number count for SLIP simulation.
 
 
 ### URDF File Modification
