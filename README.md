@@ -4,12 +4,12 @@ This project provides a simulation of the `SLIP (Spring Loaded Inverted Pendulum
 
 ## Project Preview
 
-![Preview](.image/SLIP_Preview_Crop.gif)
-![Plot](.image/Plot.png)
+![Preview](.images/SLIP_Preview_Crop.gif)
+![Plot](.images/Plot.png)
 
 ## System Diagram
 
-![System Diagram](.image/System_Diagram.png)
+![System Diagram](.images/System_Diagram.png)
 
 ## Table of Contents
 
@@ -85,13 +85,13 @@ The SLIP model is a simplified model used to describe the kinematics of a runnin
 You can modify the following parameters to customize the simulation:
 
 #### `Spring Stiffness`:
-![K_Constant](.image/K_Constant.png)
+![K_Constant](.images/K_Constant.png)
 - Stiffness of the spring (N/m)
 - Adjust via Pybullet param on top right of simulation.
 - Or Adjust in `Pybullet_Simulation.py` file at `line 44`.
 
 #### `Mass`:
-![Mass](.image/Mass.png)
+![Mass](.images/Mass.png)
 - Mass of the robot (kg)
 - Adjust via Pybullet param on top right of simulation.
 - Or Adjust in `Pybullet_Simulation.py` file at `line 41`.
@@ -138,7 +138,7 @@ The project includes a pre-configured URDF file for the robot. You can modify th
 
 This project have an example simulation in `SLIP/` directory, you can run a program using Visual Studio Code for avoid any problem cause develop use Visual Studio Code too.
 
-![Program](.image/Program.png)
+![Program](.images/Program.png)
 
 In SLIP directory contains 2 python file that you can use.
 
@@ -150,7 +150,7 @@ In SLIP directory contains 2 python file that you can use.
 
   This file run only a SLIP simulation using Pybullet.
 
-![Run](.image/Visual_Run.png)
+![Run](.images/Visual_Run.png)
 
 You can easily run those filw using run button on the top right of a Visual Studio Code windows.
 
@@ -186,7 +186,7 @@ $$\phi(t) = \iint \ddot{\phi}(t) , dt$$
 
 **For $r(t), \theta(t)$ and $\phi(t)$**
 
-![Integrate](.image/Integrate.png)
+![Integrate](.images/Integrate.png)
 
 **where**:
 
@@ -206,7 +206,7 @@ $$\phi(t) = \iint \ddot{\phi}(t) , dt$$
 
 ### SLIP Phases
 
-![SLIP Phase](.image/SLIP_Phase.png)
+![SLIP Phase](.images/SLIP_Phase.png)
 
 ### **`Stance Phase` | Position of Mass**: 
 
@@ -397,16 +397,16 @@ The `FlightPhase` function simulates the kinematics of a Spring-Loaded Inverted 
 ## Contributors
 
 <p>
-  <img src=".image/ImJAiiiii.png" width="50" height="50" style="vertical-align: middle; border-radius: 50%; margin-right: 10px;">
+  <img src=".images/ImJAiiiii.png" width="50" height="50" style="vertical-align: middle; border-radius: 50%; margin-right: 10px;">
   <b>Apichaya Sriwong</b> - <a href="https://github.com/ImJAiiiii">ImJAiiiii</a> - Developer Researcher
 </p>
 
 <p>
-  <img src=".image/Toonzaza.png" width="50" height="50" style="vertical-align: middle; border-radius: 50%; margin-right: 10px;">
+  <img src=".images/Toonzaza.png" width="50" height="50" style="vertical-align: middle; border-radius: 50%; margin-right: 10px;">
   <b>Poppeth Petchamli</b> - <a href="https://github.com/Toonzaza">Toonzaza</a> - Developer
 </p>
 
 <p>
-  <img src=".image/TeeTyJunGz.png" width="50" height="50" style="vertical-align: middle; border-radius: 50%; margin-right: 10px;">
+  <img src=".images/TeeTyJunGz.png" width="50" height="50" style="vertical-align: middle; border-radius: 50%; margin-right: 10px;">
   <b>Vasayos Tosiri</b> - <a href="https://github.com/TeeTyJunGz">TeeTyJunGz</a> - Developer
 </p>
