@@ -5,6 +5,11 @@ This project provides a simulation of the `SLIP (Spring Loaded Inverted Pendulum
 ## Project Preview
 
 ![Preview](.image/SLIP_Preview_Crop.gif)
+![Plot](.image/Plot.png)
+
+## System Diagram
+
+![System Diagram](.image/System_Diagram.png)
 
 ## Table of Contents
 
@@ -17,6 +22,7 @@ This project provides a simulation of the `SLIP (Spring Loaded Inverted Pendulum
   - [URDF File Modification](#urdf-file-modification)
 - [Kinematic Equations](#kinematic-equations)
 - [Functions](#functions)
+- [Reference] (#Reference)
 - [Contributions](#contributions)
 
 ## Introduction
@@ -33,6 +39,7 @@ The SLIP model is a simplified model used to describe the kinematics of a runnin
 ## Requirements
 
 - Python 3.x
+- Matplotlib
 - PyBullet
 - NumPy
 
@@ -44,7 +51,7 @@ The SLIP model is a simplified model used to describe the kinematics of a runnin
    ```
 2. Install the required Python packages:
    ```bash
-   pip install pybullet numpy
+   pip install matplotlib pybullet numpy
    ```
 3. Moving path to project directory:
    ```bash
@@ -106,11 +113,15 @@ r, theta, phi, r_dot, theta_dot, phi_dot, r0, g = InitialState(_theta=np.pi/7, _
 
 ### URDF File Modification
 
-The project includes a pre-configured URDF file for the robot. You can modify the URDF file to change the robot's design or parameters. The URDF file can be found in the `urdf/` directory.
+The project includes a pre-configured URDF file for the robot. You can modify the URDF file to change the robot's design or parameters. The URDF file can be found in the `urdf/` directory. If you modified a URDF file you will need to change a STL file in `meshes/` too, for this project we use URDF file and STL from that export from `SolidWorks`.
+
+### Run a Program
+
+This project have an example simulation in `SLIP/` directory, you can run a program using Visual Studio Code for avoid any problem cause develop use Visual Studio Code too.
 
 ## Kinematic Equations
 
-The following kinematic equations are utilized in the project:
+The following kinematic equations are utilized in the project.
 
 ### **`Stance Phase` | Equation of Motion**: 
 
@@ -138,6 +149,10 @@ To find $\phi(t)$, we can integrate this equation once:
 
 $$\phi(t) = \iint \ddot{\phi}(t) , dt$$
 
+**For $r(t), \theta(t)$ and $\phi(t)$**
+
+![Integrate](.image/Integrate.png)
+
 **where**:
 
 - $r(t)$ is the length of the spring compressed.
@@ -153,6 +168,10 @@ $$\phi(t) = \iint \ddot{\phi}(t) , dt$$
 - $k$ is the spring constant.
 
 - $r_0$ is the length of the spring.
+
+### SLIP Phases
+
+![SLIP Phase](.image/SLIP_Phase.png)
 
 ### **`Stance Phase` | Position of Mass**: 
 
@@ -301,6 +320,9 @@ The `FlightPhase` function simulates the kinematics of a Spring-Loaded Inverted 
 - Absolute mass point coordinates (`mass_x`, `mass_y`, `mass_z`)
 
 - New `theta` for flight phase.
+
+## References
+- [SLIP]()
 
 ## Contributors
 

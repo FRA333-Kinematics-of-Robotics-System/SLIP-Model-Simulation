@@ -1,3 +1,4 @@
+import matplotlib.pyplot as plt
 import pybullet as p
 import pybullet_data
 import numpy as np
@@ -51,6 +52,57 @@ def UpdateSimulation(spring_id, r, spring_x, spring_y, spring_z, theta, phi):
         p.getQuaternionFromEuler([0, theta, phi])
     )
 
+plt.ion()
+fig, axs = plt.subplots(4, 1, figsize=(10, 10))
+plt.subplots_adjust(hspace=0.5)
+mass_x_vals, mass_y_vals, mass_z_vals, theta_vals = [], [], [], []
+
+axs[0].set_title("Mass X Position")
+axs[0].set_ylabel("Position (m)")
+axs[0].grid(True)
+
+axs[1].set_title("Mass Y Position")
+axs[1].set_ylabel("Position (m)")
+axs[1].grid(True)
+
+axs[2].set_title("Mass Z Position")
+axs[2].set_ylabel("Position (m)")
+axs[2].grid(True)
+
+axs[3].set_title("Theta (Angle)")
+axs[3].set_ylabel("Angle (rad)")
+axs[3].set_xlabel("Time (s)")
+axs[3].grid(True)
+
+line1, = axs[0].plot([], [], label="mass_x", color="red")
+line2, = axs[1].plot([], [], label="mass_y", color="blue")
+line3, = axs[2].plot([], [], label="mass_z", color="green")
+line4, = axs[3].plot([], [], label="theta", color="purple")
+
+for ax in axs:
+    ax.legend()
+    
+def update_plot():
+    # Append the current values to the lists
+    mass_x_vals.append(mass_x)
+    mass_y_vals.append(mass_y)
+    mass_z_vals.append(mass_z)
+    theta_vals.append(theta)
+
+    # Update the data of each plot
+    line1.set_data(np.arange(len(mass_x_vals)), mass_x_vals)
+    line2.set_data(np.arange(len(mass_y_vals)), mass_y_vals)
+    line3.set_data(np.arange(len(mass_z_vals)), mass_z_vals)
+    line4.set_data(np.arange(len(theta_vals)), theta_vals)
+
+    # Redraw the plot
+    for ax in axs:
+        ax.relim()
+        ax.autoscale_view()
+
+    fig.canvas.draw()
+    fig.canvas.flush_events()
+    
 K_spring_id = p.addUserDebugParameter(" K Constant", 0, 1000, 100)
 m_mass_id = p.addUserDebugParameter(" Mass", 0, 10, 1)
 count_id = p.addUserDebugParameter(" Count", 0, 10, 1)
@@ -141,7 +193,8 @@ while True:
                 phase = "flight"
 
         UpdateSimulation(spring_id, r, spring_x, spring_y, spring_z, theta, phi)
-
+        update_plot()
+        
         cameraTargetPosition = [spring_x, spring_y, 0]
 
         # อัปเดตตำแหน่งกล้องใน PyBullet
