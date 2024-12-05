@@ -20,9 +20,10 @@ This project provides a simulation of the `SLIP (Spring Loaded Inverted Pendulum
 - [Usage](#usage)
   - [Adjustable Parameters](#adjustable-parameters)
   - [URDF File Modification](#urdf-file-modification)
+  - [Run a Program](#run-a-program)
 - [Kinematic Equations](#kinematic-equations)
 - [Functions](#functions)
-- [Reference] (#Reference)
+- [Reference](#References)
 - [Contributions](#contributions)
 
 ## Introduction
@@ -49,13 +50,13 @@ The SLIP model is a simplified model used to describe the kinematics of a runnin
    ```bash
    git clone https://github.com/FRA333-Kinematics-of-Robotics-System/SLIP-Model-Simulation.git
    ```
-2. Install the required Python packages:
-   ```bash
-   pip install matplotlib pybullet numpy
-   ```
-3. Moving path to project directory:
+2. Moving path to project directory:
    ```bash
    cd SLIP-Model-Simulation
+   ```
+3. Install the required Python packages:
+   ```bash
+   pip install -r requirements.txt
    ```
 4. Open Visual Studio Code for run a python:
    ```bash
@@ -118,6 +119,22 @@ The project includes a pre-configured URDF file for the robot. You can modify th
 ### Run a Program
 
 This project have an example simulation in `SLIP/` directory, you can run a program using Visual Studio Code for avoid any problem cause develop use Visual Studio Code too.
+
+![Program](.image/Program.png)
+
+In SLIP directory contains 2 python file that you can use.
+
+- `Pybullet_Simulation_with_graph.py`
+
+  This file run a SLIP simulation with a Matplotlib graph for visual and debugging.
+
+- `Pybullet_Simulation.py`
+
+  This file run only a SLIP simulation using Pybullet.
+
+![Run](.image/Visual_Run.png)
+
+You can easily run those filw using run button on the top right of a Visual Studio Code windows.
 
 ## Kinematic Equations
 
@@ -322,7 +339,7 @@ The `FlightPhase` function simulates the kinematics of a Spring-Loaded Inverted 
 - New `theta` for flight phase.
 
 ## References
-- [SLIP]()
+- [Spring-loaded Inverted Pendulum (SLIP) Control | Danfoa Github](https://github.com/Danfoa/slip_control)
 
 ## Contributors
 

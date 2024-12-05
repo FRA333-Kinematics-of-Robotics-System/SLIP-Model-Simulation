@@ -1,0 +1,3 @@
+matplotlib
+pybullet==3.2.6
+numpy
