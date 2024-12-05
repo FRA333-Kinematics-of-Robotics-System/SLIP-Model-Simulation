@@ -71,7 +71,7 @@ cameraTargetPosition = [0, 0, 0]
 
 print("System initialized. Waiting for release...")
 
-Kp = 20.5
+Kp = 40.1
 Kd = 2
 
 t_sim = 0
@@ -141,18 +141,13 @@ while True:
 
         UpdateSimulation(spring_id, r, spring_x, spring_y, spring_z, theta, phi)
 
-        # อัปเดตตำแหน่งกล้องให้ตามมวล
-        cameraDistance = 5.0  # ระยะห่างจากกล้องไปยังมวล
-        cameraYaw = 45        # มุมการหมุนกล้องในแกน Y (หมุนรอบ)
-        cameraPitch = -30     # มุมการหมุนกล้องในแกน X (มุมก้ม/เงย)
+        cameraDistance = 5.0
+        cameraYaw = 45
+        cameraPitch = -30
         cameraTargetPosition = [spring_x, spring_y, 0]
 
         # อัปเดตตำแหน่งกล้องใน PyBullet
         p.resetDebugVisualizerCamera(cameraDistance, cameraYaw, cameraPitch, cameraTargetPosition)
-
-        if count == count_max and run:
-            run = False
-            break
 
         print(f"Phase: {phase}")
         print(f"Mass Position: x={mass_x}, y={mass_y}, z={mass_z}", f"Spring Base: x={spring_x}, y={spring_y}, z={spring_z}")
@@ -167,3 +162,7 @@ while True:
         
         p.stepSimulation()
         time.sleep(time_step)
+        
+    if count >= round(count_max) and run:
+        run = False
+        # break
