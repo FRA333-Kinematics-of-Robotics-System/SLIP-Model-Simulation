@@ -5,6 +5,7 @@ import numpy as np
 import time
 
 from utils.Kinematics_utils import *
+from utils.gui_utils import *
 
 p.connect(p.GUI)
 p.setAdditionalSearchPath(pybullet_data.getDataPath())
@@ -52,11 +53,12 @@ def UpdateSimulation(spring_id, r, spring_x, spring_y, spring_z, theta, phi):
         p.getQuaternionFromEuler([0, theta, phi])
     )
 
-plt.ion()
-fig, axs = plt.subplots(4, 1, figsize=(10, 10))
+plt.ion()  # Turn on interactive mode
+fig, axs = plt.subplots(4, 1, figsize=(10, 10))  # Create 4 subplots for mass_x, mass_y, mass_z, and theta
 plt.subplots_adjust(hspace=0.5)
 mass_x_vals, mass_y_vals, mass_z_vals, theta_vals = [], [], [], []
 
+# Set titles and labels for each subplot
 axs[0].set_title("Mass X Position")
 axs[0].set_ylabel("Position (m)")
 axs[0].grid(True)
@@ -74,6 +76,7 @@ axs[3].set_ylabel("Angle (rad)")
 axs[3].set_xlabel("Time (s)")
 axs[3].grid(True)
 
+# Initialize the plot lines for each subplot
 line1, = axs[0].plot([], [], label="mass_x", color="red")
 line2, = axs[1].plot([], [], label="mass_y", color="blue")
 line3, = axs[2].plot([], [], label="mass_z", color="green")
@@ -81,7 +84,8 @@ line4, = axs[3].plot([], [], label="theta", color="purple")
 
 for ax in axs:
     ax.legend()
-    
+
+# Update function for the plot
 def update_plot():
     # Append the current values to the lists
     mass_x_vals.append(mass_x)
@@ -103,18 +107,12 @@ def update_plot():
     fig.canvas.draw()
     fig.canvas.flush_events()
     
-K_spring_id = p.addUserDebugParameter(" K Constant", 0, 1000, 100)
-m_mass_id = p.addUserDebugParameter(" Mass", 0, 10, 1)
-count_id = p.addUserDebugParameter(" Count", 0, 10, 1)
-
-k_spring = p.readUserDebugParameter(K_spring_id)
 
 x_i, y_i, z_i = mass_x, mass_y, mass_z
 time_step = 1 / 240.0
 dx, dy, dz = 1, 0, 0
 state = 1
-T_flight = 2 * dz / -g
-T_stance = 2*np.pi* np.sqrt(m_mass_id/k_spring)
+
 theta_i = theta
 
 cameraDistance = 6
@@ -124,26 +122,76 @@ cameraTargetPosition = [0, 0, 0]
 
 print("System initialized. Waiting for release...")
 
-Kp = 40.1
-Kd = 2
+Kp = 37
+Kd = 20
 
 t_sim = 0
 count = 0
+ui = UI()
+
 run = False
 
 while True:
-    count_max = p.readUserDebugParameter(count_id)
-    keys = p.getKeyboardEvents()
 
-    if p.B3G_RETURN in keys and keys[p.B3G_RETURN] & p.KEY_WAS_TRIGGERED:
-        run = True
+    if not run:
+        ui.update()
+
+        m_value, k_value, r_dot_value, theta_dot_value, phi_dot_value, count_value = ui.get_slider_values()
+
+        m, k, r_dot, theta_dot, phi_dot, count_max = m_value, k_value, r_dot_value, theta_dot_value, phi_dot_value, count_value
+
+        T_flight = 2 * dz / -g
+        T_stance = 2*np.pi* np.sqrt(m/k)
+
+        print(f"Mass: {m_value}, Spring constant: {k_value}, dr: {r_dot_value}, dtheta: {theta_dot_value}, dphi: {phi_dot_value}, Count: {count_value}")
+        
+        mouse_click = pygame.mouse.get_pressed()
+
+        keys = pygame.key.get_pressed()
+
+        if ui.check_button_click(350, 80, 100, 40):
+            ui.m_value = min(ui.m_value + ui.m_step, ui.m_max)
+        if ui.check_button_click(50, 80, 100, 40):
+            ui.m_value = max(ui.m_value - ui.m_step, ui.m_min)
+        
+        if ui.check_button_click(350, 180, 100, 40):
+            ui.k_value = min(ui.k_value + ui.k_step, ui.k_max)
+        if ui.check_button_click(50, 180, 100, 40):
+            ui.k_value = max(ui.k_value - ui.k_step, ui.k_min)
+        
+        if ui.check_button_click(350, 280, 100, 40):
+            ui.r_dot_value = min(ui.r_dot_value + ui.r_dot_step, ui.r_dot_max)
+        if ui.check_button_click(50, 280, 100, 40):
+            ui.r_dot_value = max(ui.r_dot_value - ui.r_dot_step, ui.r_dot_min)
+
+        if ui.check_button_click(350, 380, 100, 40):
+            ui.theta_dot_value = min(ui.theta_dot_value + ui.theta_dot_step, ui.theta_dot_max)
+        if ui.check_button_click(50, 380, 100, 40):
+            ui.theta_dot_value = max(ui.theta_dot_value - ui.theta_dot_step, ui.theta_dot_min)
+
+        if ui.check_button_click(350, 480, 100, 40):
+            ui.phi_dot_value = min(ui.phi_dot_value + ui.phi_dot_step, ui.phi_dot_max)
+        if ui.check_button_click(50, 480, 100, 40):
+            ui.phi_dot_value = max(ui.phi_dot_value - ui.phi_dot_step, ui.phi_dot_min)
+
+        if ui.check_button_click(350, 580, 100, 40):
+            ui.count_value = min(ui.count_value + ui.count_step, ui.count_max)
+        if ui.check_button_click(50, 580, 100, 40):
+            ui.count_value = max(ui.count_value - ui.count_step, ui.count_min)
+        
+        if ui.check_button_click(150, 650, 200, 40):
+            print("Start button clicked!")
+            run = True
+        
+        pygame.time.delay(50)
+        
     
     if run:
 
         if state == 1:
             phase = "stance"
             r, r_dot, theta, theta_dot, phi, phi_dot, mass_x, mass_y, mass_z = StancePhase(
-                m_mass_id, k_spring, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot ,spring_x, spring_y, spring_z
+                m, k, r0, g, time_step, r, r_dot, theta, theta_dot, phi, phi_dot ,spring_x, spring_y, spring_z
             )
 
             if r >= r0 :
@@ -166,21 +214,20 @@ while True:
                 phase = "touchdown"
 
                 spring_z, x_i, y_i, z_i, dx, dy, dz, r_dot, phi_dot, theta_dot, T_stance, t_sim, state, theta_i = FlightToStance(
-                    mass_x, mass_y, mass_z, r_dot, phi_dot, theta_dot, theta, m_mass_id ,k_spring
+                    mass_x, mass_y, mass_z, r_dot, phi_dot, theta_dot, theta, m ,k
                 )
 
                 phase = "stance"
 
         elif (state == 3) & (phase == "stance"):
             r, r_dot, theta, theta_dot, phi, phi_dot, mass_x, mass_y, mass_z = StancePhaseControl(
-                m_mass_id, k_spring, r0, g, time_step, r, r_dot, theta, target_theta, theta_dot, phi, phi_dot, spring_x, spring_y, spring_z, Kp, Kd
+                m, k, r0, g, time_step, r, r_dot, theta, target_theta, theta_dot, phi, phi_dot, spring_x, spring_y, spring_z, Kp, Kd
             )
             t_sim += time_step
 
             delta_x = r - r0
 
-            # Force in the spring according to Hooke's law
-            force_in_spring = -k_spring * delta_x
+            force_in_spring = -k * delta_x
 
             if (abs(force_in_spring) < 1e-3) & (t_sim >= T_stance/2):
                 phase = "take-off"
@@ -193,11 +240,8 @@ while True:
                 phase = "flight"
 
         UpdateSimulation(spring_id, r, spring_x, spring_y, spring_z, theta, phi)
-        update_plot()
-        
         cameraTargetPosition = [spring_x, spring_y, 0]
-
-        # อัปเดตตำแหน่งกล้องใน PyBullet
+        update_plot()
         p.resetDebugVisualizerCamera(cameraDistance, cameraYaw, cameraPitch, cameraTargetPosition)
 
         print(f"Phase: {phase}")
@@ -208,12 +252,14 @@ while True:
 
         print(f"Angulavelocity: r_dot={r_dot}, theta_dot={theta_dot}, phi_dot={phi_dot}")
         print(f"Count: {count}")
+        if phase == "flight" or state == 3:
+            print("target theta  ", target_theta)
         print("\n")
         # print(f"velocity: x_dot={dx}, y_dot={dy}, z_dot={dz}")
         
         p.stepSimulation()
         time.sleep(time_step)
-        
-    if count >= round(count_max) and run:
-        run = False
-        break
+    
+    if count == count_max:
+            is_running = False
+            break
