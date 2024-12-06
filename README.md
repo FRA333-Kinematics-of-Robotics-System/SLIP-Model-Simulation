@@ -22,7 +22,7 @@ This project provides a simulation of the `SLIP (Spring Loaded Inverted Pendulum
     - [Spring Stiffness](#spring-stiffness)
     - [Mass](#mass)
     - [Spring Length](#spring-length)
-    - [Initial Orientation](#initial-orientation)
+    - [Initial Orientation](#initial-orientation-angular-velocity)
     - [Jump Count](#slip-jump-count)
   - [URDF File Modification](#urdf-file-modification)
   - [Run a Program](#run-a-program)
@@ -92,7 +92,7 @@ You can modify the following parameters to customize the simulation:
 - Stiffness of the spring (N/m)
 #### `Spring Velocity`: 
 - Velocity of spring compressed (m/s)
-#### `Initial Orientation Velocity`:
+#### `Initial Orientation Angular Velocity`:
 - Angular velocity in $\theta$ and $\phi$ (rad/s)
 #### `SLIP Jump Count`
 - Jump number count for SLIP simulation.
