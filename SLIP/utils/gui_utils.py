@@ -28,11 +28,11 @@ class UI:
         self.count_value = 1  # Count (initial value)
         
         # Slider ranges and step values
-        self.m_min, self.m_max, self.m_step = 1, 10, 1
-        self.k_min, self.k_max, self.k_step = 10, 1000, 100
+        self.m_min, self.m_max, self.m_step = 1, 10, 0.5
+        self.k_min, self.k_max, self.k_step = 10, 1000, 50
         self.r_dot_min, self.r_dot_max, self.r_dot_step = -10, -1, 1
-        self.theta_dot_min, self.theta_dot_max, self.theta_dot_step = 0, 3, 1
-        self.phi_dot_min, self.phi_dot_max, self.phi_dot_step = 0, 3, 1
+        self.theta_dot_min, self.theta_dot_max, self.theta_dot_step = 0, 1.5, 0.1
+        self.phi_dot_min, self.phi_dot_max, self.phi_dot_step = 0, 1.5, 0.1
         self.count_min, self.count_max, self.count_step = 1, 10, 1
 
     def draw_rounded_rect(self, x, y, width, height, color, radius):
