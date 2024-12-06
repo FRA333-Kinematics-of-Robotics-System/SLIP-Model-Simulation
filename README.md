@@ -57,6 +57,7 @@ The SLIP model is a simplified model used to describe the kinematics of a runnin
 - Python 3.x
 - Matplotlib
 - PyBullet
+- Pygame
 - NumPy
 
 ## Installation
