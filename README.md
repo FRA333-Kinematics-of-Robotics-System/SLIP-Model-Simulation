@@ -30,7 +30,7 @@ This project provides a simulation of the `SLIP (Spring Loaded Inverted Pendulum
       - [`Mass`:](#mass)
       - [`Spring Stiffness`:](#spring-stiffness)
       - [`Spring Velocity`:](#spring-velocity)
-      - [`Initial Orientation Angular Velocity`:](#initial-orientation-angular-velocity)
+      - [`Initial Orientation Velocity`:](#initial-orientation-velocity)
       - [`SLIP Jump Count`](#slip-jump-count)
     - [URDF File Modification](#urdf-file-modification)
     - [Run a Program](#run-a-program)
@@ -72,7 +72,6 @@ The SLIP model is a simplified model used to describe the kinematics of a runnin
 - Python 3.x
 - Matplotlib
 - PyBullet
-- Pygame
 - NumPy
 
 ## Installation
@@ -108,7 +107,7 @@ You can modify the following parameters to customize the simulation:
 - Stiffness of the spring (N/m)
 #### `Spring Velocity`: 
 - Velocity of spring compressed (m/s)
-#### `Initial Orientation Angular Velocity`:
+#### `Initial Orientation Velocity`:
 - Angular velocity in $\theta$ and $\phi$ (rad/s)
 #### `SLIP Jump Count`
 - Jump number count for SLIP simulation.
