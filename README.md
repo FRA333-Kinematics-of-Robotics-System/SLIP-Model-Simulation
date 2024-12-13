@@ -168,21 +168,29 @@ L = \frac{1}{2}m(\dot{r}^2+r^2\dot{\theta}^2+r^2sin^2\theta\dot{\phi}^2) - (mgrc
 $$
 #### Euler-Lagrangian:
 from 
+
 $$
 \frac{d}{dt}(\frac{\partial{L}}{\partial{\dot{q}_i}})-\frac{\partial{L}}{\partial{q_i}} = 0
 $$
+
 **Euler-Lagrange Equation for $r$**
+
 $$
 m \ddot{r}(t) - m \left( r(t) \dot{\theta}(t)^2 +  \sin^2(\theta(t)) r(t) \dot{\phi}(t)^2 \right) - k(r_0 - r(t))+ g m \cos(\theta(t)) = 0
 $$
+
 **Euler-Lagrange Equation for $\theta$**
+
 $$
 -m r(t) \left( g \sin(\theta(t)) - r(t) \ddot{\theta}(t) - 2 \dot{r}(t) \dot{\theta}(t) + \frac{1}{2}\sin(2\theta(t)) r(t) \dot{\phi}(t)^2 \right) = 0
 $$
+
 **Euler-Lagrange Equation for $\phi$**
+
 $$
 m \sin^2(\theta(t)) r(t)^2 \ddot{\phi}(t) + m \sin(2\theta(t)) r(t)^2 \dot{\phi}(t) \dot{\theta}(t) + 2m \sin^2(\theta(t)) r(t) \dot{\phi}(t) \dot{r}(t) = 0
 $$
+
 #### Equation of Motion: 
 
 **Equation for $\ddot{r}$:**
