@@ -168,7 +168,8 @@ L = \frac{1}{2}m(\dot{r}^2+r^2\dot{\theta}^2+r^2sin^2\theta\dot{\phi}^2) - (mgrc
 $$
 #### Euler-Lagrangian:
 from 
-$$\frac{d}{dt}(\frac{\partial{L}}{\partial{\dot{q}_i}})-\frac{\partial{L}}{\partial{q_i}} = 0
+$$
+\frac{d}{dt}(\frac{\partial{L}}{\partial{\dot{q}_i}})-\frac{\partial{L}}{\partial{q_i}} = 0
 $$
 **Euler-Lagrange Equation for $r$**
 $$
