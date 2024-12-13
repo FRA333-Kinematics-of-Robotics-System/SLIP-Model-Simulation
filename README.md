@@ -427,6 +427,9 @@ To further illustrate the behavior, below are graphs of key parameters over time
   - The system is effectively stabilized using PD control gains (Kp and Kd), allowing the robot to maintain consistent jumping behavior across multiple cycles.
   - From the graphs, it is evident that the theta value changes more smoothly compared to the simulation without PD control.
   - The smoother control of theta prevents abrupt oscillations, enabling the robot to sustain consecutive jumps.
+
+![Error](.images/ProblemStackError.png)
+
   - However, as the number of jumps increases, small errors in theta accumulate, leading to a gradual drift in the model. This occurs because the simulation does not use a closed-loop control system to correct accumulated errors.
 
 ## Summary and Analysis
