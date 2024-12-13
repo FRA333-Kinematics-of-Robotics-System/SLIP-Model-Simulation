@@ -2,6 +2,9 @@
 
 This project provides a simulation of the `SLIP (Spring Loaded Inverted Pendulum)` model in 3D motion using PyBullet. The model allows you to adjust various parameters for the simulation. It includes kinematic equations that can be utilized for other simulations, and the project comes with a pre-configured URDF file that you can modify.
 
+## Project Proposal
+[G2 Kinematic Proposal](Document/G2_Kinematic_Proposal.pdf)
+
 ## Project Preview
 
 ![Preview](.images/SLIP_Preview_Crop.gif)
@@ -13,33 +16,45 @@ This project provides a simulation of the `SLIP (Spring Loaded Inverted Pendulum
 
 ## Table of Contents
 
-- [Introduction](#introduction)
-- [Features](#features)
-- [Requirements](#requirements)
-- [Installation](#installation)
-- [Usage](#usage)
-  - [Adjustable Parameters](#adjustable-parameters)
-    - [Spring Stiffness](#spring-stiffness)
-    - [Mass](#mass)
-    - [Spring Length](#spring-length)
-    - [Initial Orientation](#initial-orientation-angular-velocity)
-    - [Jump Count](#slip-jump-count)
-  - [URDF File Modification](#urdf-file-modification)
-  - [Run a Program](#run-a-program)
-- [Kinematic Equations](#kinematic-equations)
-  - [Equation of Motion](#stance-phase--equation-of-motion)
-  - [SLIP Phases](#slip-phases)
-    - [Stance Phase | Position of Mass](#stance-phase--position-of-mass)
-    - [Flight Phase | Position of Mass](#flight-phase--position-of-mass)
-    - [Flight Phase | Position of Spring Base](#flight-phase--position-of-spring-base)
-- [Functions](#functions)
-  - [InitialState()](#initialstate)
-  - [StancePhase()](#stancephase)
-  - [StancePhaseControl()](#stancephasecontrol)
-  - [StanceToFlight()](#stancetoflight)
-  - [FlightPhase()](#flightphase)
-- [References](#References)
-- [Contributions](#contributions)
+- [SLIP Model Simulation in 3D Motion](#slip-model-simulation-in-3d-motion)
+  - [Project Proposal](#project-proposal)
+  - [Project Preview](#project-preview)
+  - [System Diagram](#system-diagram)
+  - [Table of Contents](#table-of-contents)
+  - [Introduction](#introduction)
+  - [Features](#features)
+  - [Requirements](#requirements)
+  - [Installation](#installation)
+  - [Usage](#usage)
+    - [Adjustable Parameters](#adjustable-parameters)
+      - [`Mass`:](#mass)
+      - [`Spring Stiffness`:](#spring-stiffness)
+      - [`Spring Velocity`:](#spring-velocity)
+      - [`Initial Orientation Angular Velocity`:](#initial-orientation-angular-velocity)
+      - [`SLIP Jump Count`](#slip-jump-count)
+    - [URDF File Modification](#urdf-file-modification)
+    - [Run a Program](#run-a-program)
+  - [Kinematic Equations](#kinematic-equations)
+    - [**`Stance Phase` | Equation of Motion**:](#stance-phase--equation-of-motion)
+    - [SLIP Phases](#slip-phases)
+    - [**`Stance Phase` | Position of Mass**:](#stance-phase--position-of-mass)
+    - [**`Flight Phase` | Position of Mass**:](#flight-phase--position-of-mass)
+    - [**`Flight Phase` | Position of Spring Base**:](#flight-phase--position-of-spring-base)
+  - [Functions](#functions)
+    - [`InitialState()`](#initialstate)
+    - [`StancePhase()`](#stancephase)
+    - [`StancePhaseControl()`](#stancephasecontrol)
+    - [`StanceToFlight()`](#stancetoflight)
+    - [`FlightPhase()`](#flightphase)
+  - [Result](#result)
+    - [Simulation Parameters](#simulation-parameters)
+    - [**Without PD Control**](#without-pd-control)
+    - [**With PD Control**](#with-pd-control)
+  - [Summary and Analysis](#summary-and-analysis)
+    - [Summary](#summary)
+    - [Analysis](#analysis)
+  - [References](#references)
+  - [Contributors](#contributors)
 
 ## Introduction
 
@@ -362,6 +377,69 @@ The `FlightPhase` function simulates the kinematics of a Spring-Loaded Inverted 
 - Absolute mass point coordinates (`mass_x`, `mass_y`, `mass_z`)
 
 - New `theta` for flight phase.
+
+## Result
+
+### Simulation Parameters
+The simulation was conducted using the following parameters:
+
+| Parameter               | Value         | Unit        |
+|-------------------------|---------------|-------------|
+| Mass (`m`)              | 1.0           | kg          |
+| Spring Stiffness (`k`)  | 100           | N/m         |
+| Spring Compression Rate (`dr`) | -6          | m/s         |
+| Angular Velocity in $\theta$ (`dtheta`) | 1.0         | rad/s       |
+| Angular Velocity in $\phi$ (`dphi`) | 1.0         | rad/s       |
+| SLIP Jump Count (`count`)  | 4           | count       |
+
+
+### **Without PD Control**
+In this configuration, the simulation does not use proportional-derivative (PD) control for stabilization. Below is the result:
+
+**Video (without PD Control)**
+
+[VideoWithoutPDControl](.images/VideoWithoutPDControl.mp4)
+
+**Graphs (without PD Control)**
+To further illustrate the behavior, below are graphs of key parameters over time (e.g., x, y, z, theta):
+
+![GraphWithoutPDControl](.images/GraphWithoutPDControl.png)
+
+- **Observations:**
+  - Over time, the system fails to maintain balance, causing the robot to lose its ability to perform multiple consecutive jumps.
+
+### **With PD Control**
+With the addition of PD control, the simulation achieves เพื่อให้โมเดลสามารถกระโดดไปได้เรื่อยๆ. Below is the result:
+
+when  `kp`: 37 and
+      `kd`: 20
+
+**Video (with PD Control)**
+
+[VideoWithPDControl](.images/VideoWithPDControl.mp4)
+
+**Graphs (with PD Control)**
+To further illustrate the behavior, below are graphs of key parameters over time (e.g., x, y, z, theta):
+
+![GraphWithPDControl](.images/GraphWithPDControl.png)
+
+- **Observations:**
+  - The system is effectively stabilized using PD control gains (Kp and Kd), allowing the robot to maintain consistent jumping behavior across multiple cycles.
+  - From the graphs, it is evident that the theta value changes more smoothly compared to the simulation without PD control.
+  - The smoother control of theta prevents abrupt oscillations, enabling the robot to sustain consecutive jumps.
+  - However, as the number of jumps increases, small errors in theta accumulate, leading to a gradual drift in the model. This occurs because the simulation does not use a closed-loop control system to correct accumulated errors.
+
+## Summary and Analysis
+
+### Summary
+This simulation effectively demonstrates the motion of a 3D Spring-Loaded Inverted Pendulum (SLIP) model under two control configurations: with and without PD control. Without PD control, the system struggles to maintain balance, resulting in erratic and unstable behavior during jumps. In contrast, the introduction of PD control significantly enhances stability, allowing the system to perform smooth and continuous jumps. However, over time, small errors in theta accumulate due to the lack of a closed-loop control mechanism, which limits long-term performance.
+
+### Analysis
+The results highlight the importance of control strategies in robotic systems. PD control ensures that theta changes as expected, allowing the model to move smoothly and continuously. This makes it effective for achieving stability in the short term. However, for longer-term performance, error accumulation in theta becomes noticeable, eventually affecting the model's ability to maintain consistent motion. A closed-loop control system or advanced strategies would be necessary to address this issue.
+
+Additionally, the simulation currently lacks real-world factors such as friction, ground irregularities, and sensor noise, which could significantly impact the behavior of the system in practical applications.
+
+Future work could focus on refining the control parameters, incorporating environmental variability, and applying the findings to real-world scenarios, such as legged or hopping robots. These steps would help to better understand the dynamics and limitations of the SLIP model.
 
 ## References
 - [Spring-loaded Inverted Pendulum (SLIP) Control | Danfoa Github](https://github.com/Danfoa/slip_control)
